@@ -13,9 +13,9 @@ tailwind.config={theme:{extend:{fontFamily:{display:['Orbitron','sans-serif'],bo
 </script>
 <style>
 :root{--bg:#060b18;--bg2:#0a1628;--cyan:#00d4ff;--mint:#00ff88;--gold:#f0b429;--text:#e2e8f0;--muted:#64748b;--card:rgba(10,22,40,0.75);--border:rgba(0,212,255,0.12)}
-*{margin:0;padding:0;box-sizing:border-box}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{scroll-behavior:smooth}
-body{font-family:'Vazirmatn',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden}
+body{font-family:'Vazirmatn',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;word-wrap:break-word;overflow-wrap:break-word}
 
 #loader{position:fixed;inset:0;z-index:9999;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .6s}
 .loader-name{font-family:'Orbitron',sans-serif;font-size:clamp(2.5rem,8vw,5rem);font-weight:900;background:linear-gradient(135deg,var(--cyan),var(--mint));-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:pulse 1.5s ease-in-out infinite}
@@ -24,137 +24,133 @@ body{font-family:'Vazirmatn',sans-serif;background:var(--bg);color:var(--text);o
 .loader-fill{height:100%;width:0;background:linear-gradient(90deg,var(--cyan),var(--mint));border-radius:4px;animation:lf 2s ease-in-out forwards}
 @keyframes lf{0%{width:0}40%{width:55%}100%{width:100%}}
 
-.cursor-dot{position:fixed;width:8px;height:8px;background:var(--cyan);border-radius:50%;pointer-events:none;z-index:9998;transition:transform .1s;mix-blend-mode:screen}
-.cursor-ring{position:fixed;width:36px;height:36px;border:1.5px solid rgba(0,212,255,0.5);border-radius:50%;pointer-events:none;z-index:9997;transition:transform .25s,width .3s,height .3s,border-color .3s}
-.cursor-ring.hover{width:56px;height:56px;border-color:var(--mint)}
+.cursor-dot{position:fixed;width:8px;height:8px;background:var(--cyan);border-radius:50%;pointer-events:none;z-index:9998;mix-blend-mode:screen;display:none}
+.cursor-ring{position:fixed;width:36px;height:36px;border:1.5px solid rgba(0,212,255,0.5);border-radius:50%;pointer-events:none;z-index:9997;display:none}
 
 #three-canvas{position:fixed;inset:0;z-index:0;pointer-events:none}
 
-#navbar{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(6,11,24,0.85);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);transform:translateY(-100%);transition:transform .4s}
+#navbar{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(6,11,24,0.9);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--border);transform:translateY(-100%);transition:transform .4s}
 #navbar.visible{transform:translateY(0)}
-.nav-link{position:relative;color:var(--muted);transition:color .3s;font-size:.85rem;white-space:nowrap}
+.nav-link{position:relative;color:var(--muted);transition:color .3s;font-size:.8rem;white-space:nowrap;text-decoration:none}
 .nav-link:hover,.nav-link.active{color:var(--cyan)}
 .nav-link::after{content:'';position:absolute;bottom:-4px;right:0;width:0;height:2px;background:var(--cyan);transition:width .3s}
 .nav-link:hover::after,.nav-link.active::after{width:100%}
 
-#hero{position:relative;z-index:1;min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:0 1rem}
-.hero-name{font-family:'Orbitron',sans-serif;font-size:clamp(3rem,10vw,7rem);font-weight:900;line-height:1.1;background:linear-gradient(135deg,var(--cyan) 0%,var(--mint) 50%,var(--gold) 100%);background-size:200% 200%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:gs 6s ease infinite}
+#hero{position:relative;z-index:1;min-height:100vh;min-height:100dvh;display:flex;align-items:center;justify-content:center;text-align:center;padding:1rem}
+.hero-name{font-family:'Orbitron',sans-serif;font-size:clamp(2.5rem,10vw,7rem);font-weight:900;line-height:1.1;background:linear-gradient(135deg,var(--cyan) 0%,var(--mint) 50%,var(--gold) 100%);background-size:200% 200%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:gs 6s ease infinite}
 @keyframes gs{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
-.hero-sub{font-size:clamp(.9rem,2.5vw,1.4rem);color:var(--muted);min-height:2em}
+.hero-sub{font-size:clamp(.85rem,2.5vw,1.4rem);color:var(--muted);min-height:2em}
 .hero-sub .cb{display:inline-block;width:2px;height:1.2em;background:var(--cyan);margin-right:4px;animation:bl .8s step-end infinite;vertical-align:middle}
 @keyframes bl{0%,100%{opacity:1}50%{opacity:0}}
 .scroll-ind{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);animation:sb 2s ease-in-out infinite}
 @keyframes sb{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(10px)}}
 
-.glass{background:var(--card);backdrop-filter:blur(20px);border:1px solid var(--border);border-radius:16px;position:relative;overflow:hidden}
+.glass{background:var(--card);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--border);border-radius:16px;position:relative;overflow:hidden}
 .glass::before{content:'';position:absolute;inset:0;border-radius:16px;padding:1px;background:linear-gradient(135deg,rgba(0,212,255,0.2),transparent 50%,rgba(0,255,136,0.1));-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
 
-.stitle{font-family:'Orbitron',sans-serif;font-size:clamp(1.1rem,2.5vw,1.6rem);font-weight:700;color:var(--cyan);margin-bottom:.5rem;letter-spacing:1px}
-.sline{width:60px;height:3px;background:linear-gradient(90deg,var(--cyan),var(--mint));border-radius:3px;margin-bottom:2.5rem}
+.stitle{font-family:'Orbitron',sans-serif;font-size:clamp(1rem,2.5vw,1.6rem);font-weight:700;color:var(--cyan);margin-bottom:.5rem;letter-spacing:1px}
+.sline{width:60px;height:3px;background:linear-gradient(90deg,var(--cyan),var(--mint));border-radius:3px;margin-bottom:2rem}
 
-.stat-box{text-align:center;padding:1.2rem .8rem}
-.stat-num{font-family:'Orbitron',sans-serif;font-size:clamp(1.5rem,4vw,2.2rem);font-weight:800;color:var(--cyan)}
-.stat-label{font-size:clamp(.7rem,1.5vw,.85rem);color:var(--muted);margin-top:.25rem}
+.stat-box{text-align:center;padding:1rem .5rem}
+.stat-num{font-family:'Orbitron',sans-serif;font-size:clamp(1.3rem,4vw,2.2rem);font-weight:800;color:var(--cyan)}
+.stat-label{font-size:clamp(.65rem,1.5vw,.85rem);color:var(--muted);margin-top:.2rem}
 
-.timeline{position:relative;padding-right:28px;border-right:2px solid rgba(0,212,255,0.15)}
-.tl-item{position:relative;margin-bottom:2.5rem}
-.tl-dot{position:absolute;right:-36px;top:8px;width:14px;height:14px;border-radius:50%;background:var(--bg2);border:3px solid var(--cyan);transition:background .3s,box-shadow .3s}
-.tl-item.in-view .tl-dot{background:var(--cyan);box-shadow:0 0 20px rgba(0,212,255,0.5)}
-.tl-dur{display:inline-block;padding:.15rem .7rem;background:rgba(0,255,136,0.1);border:1px solid rgba(0,255,136,0.3);border-radius:100px;font-size:.75rem;color:var(--mint);margin-bottom:.5rem}
-.tl-co{font-size:clamp(.9rem,2vw,1.1rem);font-weight:700;color:var(--text);margin-bottom:.2rem}
-.tl-ro{font-size:clamp(.8rem,1.5vw,.95rem);color:var(--cyan);margin-bottom:.8rem}
+.timeline{position:relative;padding-right:24px;border-right:2px solid rgba(0,212,255,0.15)}
+.tl-item{position:relative;margin-bottom:2rem}
+.tl-dot{position:absolute;right:-31px;top:8px;width:12px;height:12px;border-radius:50%;background:var(--bg2);border:3px solid var(--cyan);transition:background .3s,box-shadow .3s}
+.tl-item.in-view .tl-dot{background:var(--cyan);box-shadow:0 0 15px rgba(0,212,255,0.5)}
+.tl-dur{display:inline-block;padding:.15rem .6rem;background:rgba(0,255,136,0.1);border:1px solid rgba(0,255,136,0.3);border-radius:100px;font-size:.7rem;color:var(--mint);margin-bottom:.4rem}
+.tl-co{font-size:.9rem;font-weight:700;color:var(--text);margin-bottom:.2rem}
+.tl-ro{font-size:.82rem;color:var(--cyan);margin-bottom:.6rem}
 .tl-list{list-style:none;padding:0}
-.tl-list li{position:relative;padding-right:18px;margin-bottom:.4rem;color:rgba(226,232,240,0.85);font-size:clamp(.75rem,1.4vw,.88rem);line-height:1.7}
-.tl-list li::before{content:'';position:absolute;right:0;top:9px;width:7px;height:7px;border-radius:2px;background:rgba(0,212,255,0.3);transform:rotate(45deg)}
+.tl-list li{position:relative;padding-right:16px;margin-bottom:.35rem;color:rgba(226,232,240,0.85);font-size:.8rem;line-height:1.7}
+.tl-list li::before{content:'';position:absolute;right:0;top:8px;width:6px;height:6px;border-radius:2px;background:rgba(0,212,255,0.3);transform:rotate(45deg)}
 
-.ring-c{display:flex;flex-direction:column;align-items:center;gap:.4rem}
+.ring-c{display:flex;flex-direction:column;align-items:center;gap:.3rem}
 .ring-svg{transform:rotate(-90deg)}
-.ring-bg{fill:none;stroke:rgba(0,212,255,0.08);stroke-width:6}
-.ring-prog{fill:none;stroke-width:6;stroke-linecap:round;transition:stroke-dashoffset 1.8s cubic-bezier(.4,0,.2,1)}
-.ring-txt{font-family:'Orbitron',sans-serif;font-size:clamp(.8rem,1.5vw,1.1rem);font-weight:700;fill:var(--text);transform:rotate(90deg);transform-origin:center}
-.ring-lbl{font-size:clamp(.65rem,1.2vw,.8rem);color:var(--muted);text-align:center}
+.ring-bg{fill:none;stroke:rgba(0,212,255,0.08);stroke-width:5}
+.ring-prog{fill:none;stroke-width:5;stroke-linecap:round;transition:stroke-dashoffset 1.8s cubic-bezier(.4,0,.2,1)}
+.ring-txt{font-family:'Orbitron',sans-serif;font-size:.8rem;font-weight:700;fill:var(--text);transform:rotate(90deg);transform-origin:center}
+.ring-lbl{font-size:.65rem;color:var(--muted);text-align:center}
 
-.stag{display:inline-block;padding:.3rem .7rem;border-radius:8px;font-size:clamp(.65rem,1.2vw,.78rem);border:1px solid;transition:transform .2s;cursor:default}
+.stag{display:inline-block;padding:.25rem .6rem;border-radius:6px;font-size:.7rem;border:1px solid;transition:transform .2s;cursor:default}
 .stag:hover{transform:translateY(-2px)}
 
 .proj-card{transition:transform .3s,box-shadow .3s;cursor:default}
-.proj-card:hover{box-shadow:0 20px 60px rgba(0,212,255,0.12)}
-.proj-icon{width:clamp(36px,5vw,48px);height:clamp(36px,5vw,48px);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:clamp(.9rem,1.5vw,1.2rem);margin-bottom:.8rem;flex-shrink:0}
+.proj-card:hover{box-shadow:0 15px 40px rgba(0,212,255,0.1)}
+.proj-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:.9rem;margin-bottom:.7rem;flex-shrink:0}
 
-.sbar-track{height:7px;background:rgba(0,212,255,0.08);border-radius:7px;overflow:hidden}
-.sbar-fill{height:100%;border-radius:7px;width:0;transition:width 1.5s cubic-bezier(.4,0,.2,1)}
+.sbar-track{height:6px;background:rgba(0,212,255,0.08);border-radius:6px;overflow:hidden}
+.sbar-fill{height:100%;border-radius:6px;width:0;transition:width 1.5s cubic-bezier(.4,0,.2,1)}
 
-.reveal{opacity:0;transform:translateY(40px);transition:opacity .8s,transform .8s}
+.reveal{opacity:0;transform:translateY(30px);transition:opacity .7s,transform .7s}
 .reveal.in-view{opacity:1;transform:translateY(0)}
 .rd1{transition-delay:.1s}.rd2{transition-delay:.2s}.rd3{transition-delay:.3s}.rd4{transition-delay:.4s}
 
-.glow-orb{position:absolute;border-radius:50%;filter:blur(100px);pointer-events:none;opacity:0;transition:opacity 1.5s}
-.glow-orb.in-view{opacity:1}
+.glow-orb{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none;opacity:0;transition:opacity 1.5s}
+.glow-orb.in-view{opacity:.6}
 
-.grid-bg{background-image:linear-gradient(rgba(0,212,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,0.025) 1px,transparent 1px);background-size:60px 60px}
+.grid-bg{background-image:linear-gradient(rgba(0,212,255,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,0.02) 1px,transparent 1px);background-size:50px 50px}
 
-.foot-row{display:flex;align-items:center;gap:.7rem;padding:.5rem 0;border-bottom:1px solid rgba(0,212,255,0.06);font-size:clamp(.75rem,1.3vw,.85rem)}
-.foot-row i{color:var(--cyan);width:18px;text-align:center;font-size:.8rem}
+.foot-row{display:flex;align-items:center;gap:.6rem;padding:.4rem 0;border-bottom:1px solid rgba(0,212,255,0.06);font-size:.8rem}
+.foot-row i{color:var(--cyan);width:16px;text-align:center;font-size:.75rem}
 
-/* ===== پخش‌کننده موسیقی ===== */
-#musicToggle{position:fixed;right:0;top:50%;transform:translateY(-50%);z-index:200;width:42px;height:42px;border-radius:12px 0 0 12px;background:rgba(10,22,40,0.88);backdrop-filter:blur(16px);border:1px solid var(--border);border-right:none;color:var(--cyan);font-size:.9rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:width .3s,background .3s,box-shadow .3s}
-#musicToggle:hover{width:48px;background:rgba(0,212,255,0.1);box-shadow:0 0 20px rgba(0,212,255,0.15)}
+/* ===== پخش‌کننده — گوشی‌پسند ===== */
+#musicToggle{position:fixed;right:12px;bottom:12px;top:auto;transform:none;z-index:200;width:44px;height:44px;border-radius:50%;background:rgba(10,22,40,0.9);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--border);color:var(--cyan);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .3s,box-shadow .3s,transform .2s}
+#musicToggle:hover{background:rgba(0,212,255,0.15);box-shadow:0 0 20px rgba(0,212,255,0.2);transform:scale(1.08)}
 .eq-bars{display:flex;align-items:flex-end;gap:2px;height:16px}
-.eq-bar{width:3px;background:var(--cyan);border-radius:2px;animation:eqb .8s ease-in-out infinite alternate}
+.eq-bar{width:3px;background:var(--cyan);border-radius:2px;animation:eqb .6s ease-in-out infinite alternate}
 .eq-bar:nth-child(1){height:6px;animation-delay:0s}
-.eq-bar:nth-child(2){height:12px;animation-delay:.15s}
-.eq-bar:nth-child(3){height:8px;animation-delay:.3s}
-.eq-bar:nth-child(4){height:14px;animation-delay:.1s}
-@keyframes eqb{0%{height:4px}100%{height:16px}}
-#musicToggle.paused .eq-bar{animation-play-state:paused;height:4px}
+.eq-bar:nth-child(2){height:12px;animation-delay:.12s}
+.eq-bar:nth-child(3){height:8px;animation-delay:.24s}
+.eq-bar:nth-child(4){height:14px;animation-delay:.08s}
+@keyframes eqb{0%{height:3px}100%{height:16px}}
+#musicToggle.paused .eq-bar{animation-play-state:paused;height:3px}
 
-#musicPanel{position:fixed;right:-300px;top:50%;transform:translateY(-50%);z-index:199;width:280px;background:rgba(10,22,40,0.92);backdrop-filter:blur(24px);border:1px solid var(--border);border-radius:20px 0 0 20px;padding:1.2rem;transition:right .4s cubic-bezier(.4,0,.2,1);overflow:hidden}
-#musicPanel::before{content:'';position:absolute;inset:0;border-radius:20px 0 0 20px;padding:1px;background:linear-gradient(135deg,rgba(0,212,255,0.2),transparent 60%,rgba(0,255,136,0.08));-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
-#musicPanel.open{right:42px}
-.mp-art{width:100%;aspect-ratio:1;border-radius:12px;margin-bottom:1rem;position:relative;overflow:hidden;flex-shrink:0}
-.mp-art-inner{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:2.5rem;color:rgba(255,255,255,0.15);transition:transform 8s linear}
-.mp-art-inner.spinning{animation:artspin 8s linear infinite}
+#musicPanel{position:fixed;right:12px;bottom:70px;top:auto;left:12px;transform:translateY(20px);z-index:199;background:rgba(10,22,40,0.95);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid var(--border);border-radius:20px;padding:1rem;transition:transform .35s cubic-bezier(.4,0,.2,1),opacity .35s;opacity:0;pointer-events:none;max-width:320px;margin:0 auto}
+#musicPanel::before{content:'';position:absolute;inset:0;border-radius:20px;padding:1px;background:linear-gradient(135deg,rgba(0,212,255,0.2),transparent 60%,rgba(0,255,136,0.08));-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+#musicPanel.open{transform:translateY(0);opacity:1;pointer-events:auto}
+.mp-top{display:flex;align-items:center;gap:.8rem;margin-bottom:.8rem}
+.mp-art{width:52px;height:52px;border-radius:10px;flex-shrink:0;overflow:hidden}
+.mp-art-inner{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:1.2rem;color:rgba(255,255,255,0.15)}
+.mp-art-inner.spinning{animation:artspin 6s linear infinite}
 @keyframes artspin{to{transform:rotate(360deg)}}
-.mp-title{font-size:.85rem;font-weight:700;color:var(--text);margin-bottom:.15rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.mp-artist{font-size:.72rem;color:var(--muted);margin-bottom:.8rem}
-.mp-progress-wrap{width:100%;height:4px;background:rgba(255,255,255,0.06);border-radius:4px;cursor:pointer;margin-bottom:.4rem;position:relative}
-.mp-progress-fill{height:100%;border-radius:4px;width:0;background:linear-gradient(90deg,var(--cyan),var(--mint));pointer-events:none}
-.mp-time{display:flex;justify-content:space-between;font-size:.65rem;color:var(--muted);font-family:'Orbitron',sans-serif;margin-bottom:.8rem}
-.mp-controls{display:flex;align-items:center;justify-content:center;gap:1.2rem}
-.mp-btn{background:none;border:none;color:var(--muted);font-size:1rem;cursor:pointer;transition:color .2s,transform .2s;padding:4px}
-.mp-btn:hover{color:var(--cyan);transform:scale(1.15)}
-.mp-btn.play-btn{width:42px;height:42px;border-radius:50%;background:rgba(0,212,255,0.1);border:1px solid rgba(0,212,255,0.25);color:var(--cyan);font-size:1rem;display:flex;align-items:center;justify-content:center}
-.mp-btn.play-btn:hover{background:rgba(0,212,255,0.2);box-shadow:0 0 15px rgba(0,212,255,0.2)}
-.mp-close{position:absolute;top:.8rem;left:.8rem;background:none;border:none;color:var(--muted);font-size:.75rem;cursor:pointer;transition:color .2s;z-index:5;padding:4px}
+.mp-info{flex:1;min-width:0}
+.mp-title{font-size:.82rem;font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mp-artist{font-size:.68rem;color:var(--muted);margin-top:.1rem}
+.mp-close{background:none;border:none;color:var(--muted);font-size:.8rem;cursor:pointer;padding:4px;flex-shrink:0}
 .mp-close:hover{color:var(--cyan)}
-.mp-volume{display:flex;align-items:center;gap:.5rem;margin-top:.8rem}
-.mp-volume i{font-size:.7rem;color:var(--muted);cursor:pointer}
-.mp-vol-track{flex:1;height:3px;background:rgba(255,255,255,0.06);border-radius:3px;cursor:pointer;position:relative}
+.mp-progress-wrap{width:100%;height:4px;background:rgba(255,255,255,0.06);border-radius:4px;cursor:pointer;margin-bottom:.3rem}
+.mp-progress-fill{height:100%;border-radius:4px;width:0;background:linear-gradient(90deg,var(--cyan),var(--mint));pointer-events:none}
+.mp-time{display:flex;justify-content:space-between;font-size:.6rem;color:var(--muted);font-family:'Orbitron',sans-serif;margin-bottom:.6rem}
+.mp-controls{display:flex;align-items:center;justify-content:center;gap:1.5rem}
+.mp-btn{background:none;border:none;color:var(--muted);font-size:.95rem;cursor:pointer;transition:color .2s,transform .2s;padding:4px}
+.mp-btn:hover{color:var(--cyan);transform:scale(1.15)}
+.mp-btn.play-btn{width:40px;height:40px;border-radius:50%;background:rgba(0,212,255,0.1);border:1px solid rgba(0,212,255,0.25);color:var(--cyan);font-size:.9rem;display:flex;align-items:center;justify-content:center}
+.mp-btn.play-btn:hover{background:rgba(0,212,255,0.2)}
+.mp-volume{display:flex;align-items:center;gap:.4rem;margin-top:.5rem}
+.mp-volume i{font-size:.65rem;color:var(--muted);cursor:pointer}
+.mp-vol-track{flex:1;height:3px;background:rgba(255,255,255,0.06);border-radius:3px;cursor:pointer}
 .mp-vol-fill{height:100%;border-radius:3px;background:var(--cyan);width:70%;pointer-events:none}
 
-/* اعلان اتوپلی */
-#autoPlayNotice{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);z-index:300;background:rgba(10,22,40,0.92);backdrop-filter:blur(16px);border:1px solid rgba(0,212,255,0.25);border-radius:100px;padding:.6rem 1.5rem;display:flex;align-items:center;gap:.7rem;cursor:pointer;transition:transform .4s cubic-bezier(.4,0,.2,1),opacity .4s;opacity:0;font-size:.82rem;color:var(--text)}
+#autoPlayNotice{position:fixed;bottom:70px;left:50%;transform:translateX(-50%) translateY(30px);z-index:300;background:rgba(10,22,40,0.92);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(0,212,255,0.25);border-radius:100px;padding:.5rem 1.2rem;display:flex;align-items:center;gap:.6rem;cursor:pointer;transition:transform .4s,opacity .4s;opacity:0;font-size:.78rem;color:var(--text);white-space:nowrap}
 #autoPlayNotice.show{transform:translateX(-50%) translateY(0);opacity:1}
-#autoPlayNotice i{color:var(--cyan);font-size:1rem}
+#autoPlayNotice i{color:var(--cyan);font-size:.9rem}
 
-@media(max-width:768px){
-  .cursor-dot,.cursor-ring{display:none}
-  .timeline{padding-right:22px}
-  .tl-dot{right:-30px;width:11px;height:11px}
-  #musicToggle{width:36px;height:36px;border-radius:10px 0 0 10px;font-size:.75rem}
-  .eq-bar{width:2px}
-  #musicPanel{width:250px;right:-260px;padding:1rem}
-  #musicPanel.open{right:36px}
-  .mp-art{aspect-ratio:1.6}
-  .nav-links{gap:.8rem!important;font-size:.75rem!important}
-  #autoPlayNotice{font-size:.75rem;padding:.5rem 1.2rem;bottom:16px}
+/* دسکتاپ — پنل از سمت راست */
+@media(min-width:769px){
+  #musicToggle{right:0;bottom:auto;top:50%;transform:translateY(-50%);width:42px;height:42px;border-radius:12px 0 0 12px}
+  #musicToggle:hover{transform:translateY(-50%) scale(1.05)}
+  #musicPanel{right:-300px;bottom:auto;top:50%;left:auto;transform:translateY(-50%);width:280px;border-radius:20px 0 0 20px;padding:1.2rem;max-width:none;margin:0}
+  #musicPanel.open{right:42px;transform:translateY(-50%)}
+  .mp-top{flex-direction:column}
+  .mp-art{width:100%;height:auto;aspect-ratio:1;border-radius:12px;margin-bottom:.8rem}
+  .mp-info{text-align:center}
+  .mp-close{position:absolute;top:.8rem;left:.8rem}
+  #autoPlayNotice{bottom:24px}
+  .cursor-dot,.cursor-ring{display:block}
 }
-@media(max-width:480px){
-  .nav-links{gap:.5rem!important}
-  .nav-link{font-size:.7rem!important}
-  #musicPanel{width:220px;right:-230px}
-  #musicPanel.open{right:36px}
-}
+
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
 </style>
 </head>
@@ -170,13 +166,12 @@ body{font-family:'Vazirmatn',sans-serif;background:var(--bg);color:var(--text);o
 <div class="cursor-ring" id="cursorRing"></div>
 <canvas id="three-canvas"></canvas>
 
-<!-- اعلان اتوپلی -->
 <div id="autoPlayNotice"><i class="fas fa-music"></i><span>برای پخش موسیقی کلیک کنید</span></div>
 
-<nav id="navbar" aria-label="ناوبری اصلی">
-  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
-    <span class="font-display text-cyan font-bold text-xs sm:text-sm tracking-widest">MEHDI.IT</span>
-    <div class="flex items-center nav-links" style="gap:1.2rem">
+<nav id="navbar">
+  <div class="max-w-6xl mx-auto px-3 sm:px-6 py-2.5 flex items-center justify-between">
+    <span class="font-display text-cyan font-bold text-xs tracking-widest">MEHDI.IT</span>
+    <div class="flex items-center gap-4 sm:gap-6 overflow-x-auto" style="scrollbar-width:none;-ms-overflow-style:none">
       <a href="#summary" class="nav-link">خلاصه</a>
       <a href="#experience" class="nav-link">سوابق</a>
       <a href="#skills" class="nav-link">مهارت‌ها</a>
@@ -190,23 +185,23 @@ body{font-family:'Vazirmatn',sans-serif;background:var(--bg);color:var(--text);o
   <section id="hero">
     <div class="relative z-10 px-4">
       <h1 class="hero-name">MEHDI</h1>
-      <p class="hero-sub mt-4" id="heroSub"><span class="cb"></span></p>
-      <div style="margin-top:1.5rem;display:inline-flex;align-items:center;gap:.5rem;padding:.4rem 1.2rem;background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.25);border-radius:100px;font-size:clamp(.75rem,1.5vw,.9rem);color:var(--cyan)">
+      <p class="hero-sub mt-3" id="heroSub"><span class="cb"></span></p>
+      <div style="margin-top:1.2rem;display:inline-flex;align-items:center;gap:.4rem;padding:.35rem 1rem;background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.25);border-radius:100px;font-size:clamp(.72rem,1.5vw,.88rem);color:var(--cyan)">
         <i class="fas fa-bolt" style="color:var(--gold)"></i> ۲+ سال تجربه تخصصی IT
       </div>
     </div>
-    <div class="scroll-ind"><i class="fas fa-chevron-down text-cyan text-xl opacity-60"></i></div>
+    <div class="scroll-ind"><i class="fas fa-chevron-down text-cyan text-lg opacity-60"></i></div>
   </section>
 
-  <section id="summary" class="relative z-10 py-16 sm:py-24 px-4 sm:px-6">
-    <div class="glow-orb" style="width:400px;height:400px;background:var(--cyan);top:-100px;left:-200px" data-glow></div>
+  <section id="summary" class="relative z-10 py-12 sm:py-20 px-3 sm:px-6">
+    <div class="glow-orb" style="width:300px;height:300px;background:var(--cyan);top:-80px;left:-150px" data-glow></div>
     <div class="max-w-4xl mx-auto">
       <div class="reveal"><h2 class="stitle">PROFESSIONAL SUMMARY</h2><div class="sline"></div></div>
-      <div class="glass p-5 sm:p-8 reveal rd1">
-        <p class="text-base sm:text-lg leading-8 sm:leading-9" style="color:rgba(226,232,240,0.9)">کارشناس IT و Help Desk با بیش از دو سال سابقه در حوزه فروش، مونتاژ، تعمیر، عیب‌یابی و پشتیبانی سیستم‌های کامپیوتری، شبکه و تجهیزات IT. دارای تجربه عملی در پشتیبانی کاربران، نصب و پیکربندی سیستم‌عامل‌ها، راه‌اندازی تجهیزات شبکه، مجازی‌سازی و کار با محیط‌های Windows و Linux.</p>
-        <p class="text-base sm:text-lg leading-8 sm:leading-9 mt-4" style="color:rgba(226,232,240,0.9)">علاقه‌مند به اتوماسیون، برنامه‌نویسی Python، هوش مصنوعی و توسعه ابزارهای کاربردی جهت افزایش بهره‌وری تیم‌های IT. توانایی یادگیری سریع فناوری‌های جدید و حل مسائل فنی در شرایط مختلف.</p>
+      <div class="glass p-4 sm:p-7 reveal rd1">
+        <p class="text-sm sm:text-base leading-7 sm:leading-9" style="color:rgba(226,232,240,0.9)">کارشناس IT و Help Desk با بیش از دو سال سابقه در حوزه فروش، مونتاژ، تعمیر، عیب‌یابی و پشتیبانی سیستم‌های کامپیوتری، شبکه و تجهیزات IT. دارای تجربه عملی در پشتیبانی کاربران، نصب و پیکربندی سیستم‌عامل‌ها، راه‌اندازی تجهیزات شبکه، مجازی‌سازی و کار با محیط‌های Windows و Linux.</p>
+        <p class="text-sm sm:text-base leading-7 sm:leading-9 mt-3" style="color:rgba(226,232,240,0.9)">علاقه‌مند به اتوماسیون، برنامه‌نویسی Python، هوش مصنوعی و توسعه ابزارهای کاربردی جهت افزایش بهره‌وری تیم‌های IT.</p>
       </div>
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mt-6 sm:mt-8">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-4 mt-5 sm:mt-7">
         <div class="glass stat-box reveal rd1"><div class="stat-num" data-count="2">0</div><div class="stat-label">سال تجربه</div></div>
         <div class="glass stat-box reveal rd2"><div class="stat-num" data-count="2">0</div><div class="stat-label">سازمان</div></div>
         <div class="glass stat-box reveal rd3"><div class="stat-num" data-count="7">0</div><div class="stat-label">حوزه تخصص</div></div>
@@ -215,14 +210,14 @@ body{font-family:'Vazirmatn',sans-serif;background:var(--bg);color:var(--text);o
     </div>
   </section>
 
-  <section id="experience" class="relative z-10 py-16 sm:py-24 px-4 sm:px-6 grid-bg">
-    <div class="glow-orb" style="width:350px;height:350px;background:var(--mint);bottom:-100px;right:-150px" data-glow></div>
+  <section id="experience" class="relative z-10 py-12 sm:py-20 px-3 sm:px-6 grid-bg">
+    <div class="glow-orb" style="width:250px;height:250px;background:var(--mint);bottom:-80px;right:-120px" data-glow></div>
     <div class="max-w-4xl mx-auto">
       <div class="reveal"><h2 class="stitle">WORK EXPERIENCE</h2><div class="sline"></div></div>
       <div class="timeline">
         <div class="tl-item reveal">
           <div class="tl-dot"></div>
-          <div class="glass p-4 sm:p-6">
+          <div class="glass p-3.5 sm:p-5">
             <span class="tl-dur"><i class="fas fa-clock ms-1"></i> ۱ سال</span>
             <h3 class="tl-co">بازار کامپیوتر رضا — تهران</h3>
             <p class="tl-ro">کارشناس IT و فروش تجهیزات کامپیوتری</p>
@@ -231,18 +226,18 @@ body{font-family:'Vazirmatn',sans-serif;background:var(--bg);color:var(--text);o
               <li>تعمیر و عیب‌یابی کامپیوتر و لپ‌تاپ</li>
               <li>نصب Windows و Linux</li>
               <li>نصب درایورها و نرم‌افزارهای تخصصی</li>
-              <li>ارتقاء سیستم‌ها (RAM، SSD، GPU و ...)</li>
+              <li>ارتقاء سیستم‌ها (RAM، SSD، GPU)</li>
               <li>بروزرسانی BIOS و Firmware</li>
               <li>تست و عیب‌یابی قطعات سخت‌افزاری</li>
-              <li>ارائه مشاوره سخت‌افزاری متناسب با بودجه مشتری</li>
-              <li>فروش لپ‌تاپ، کیس و قطعات کامپیوتری</li>
+              <li>ارائه مشاوره سخت‌افزاری</li>
+              <li>فروش لپ‌تاپ، کیس و قطعات</li>
               <li>پشتیبانی حضوری مشتریان</li>
             </ul>
           </div>
         </div>
         <div class="tl-item reveal">
           <div class="tl-dot"></div>
-          <div class="glass p-4 sm:p-6">
+          <div class="glass p-3.5 sm:p-5">
             <span class="tl-dur"><i class="fas fa-clock ms-1"></i> ۱ سال</span>
             <h3 class="tl-co">شرکت High End — بریانک</h3>
             <p class="tl-ro">IT Support / Technical Support</p>
@@ -252,11 +247,11 @@ body{font-family:'Vazirmatn',sans-serif;background:var(--bg);color:var(--text);o
               <li>نصب و پیکربندی Windows</li>
               <li>مدیریت تجهیزات شبکه</li>
               <li>پشتیبانی Remote</li>
-              <li>راه‌اندازی VMware Workstation و ماشین‌های مجازی</li>
+              <li>راه‌اندازی VMware و ماشین‌های مجازی</li>
               <li>مدیریت Backup و Restore</li>
               <li>کار با Active Directory</li>
-              <li>پشتیبانی Microsoft Office و Microsoft 365</li>
-              <li>نصب و مدیریت آنتی‌ویروس سازمانی</li>
+              <li>پشتیبانی Microsoft 365</li>
+              <li>نصب آنتی‌ویروس سازمانی</li>
               <li>عیب‌یابی شبکه و سرویس‌ها</li>
             </ul>
           </div>
@@ -265,65 +260,68 @@ body{font-family:'Vazirmatn',sans-serif;background:var(--bg);color:var(--text);o
     </div>
   </section>
 
-  <section id="skills" class="relative z-10 py-16 sm:py-24 px-4 sm:px-6">
-    <div class="glow-orb" style="width:400px;height:400px;background:var(--cyan);top:50px;right:-200px" data-glow></div>
+  <section id="skills" class="relative z-10 py-12 sm:py-20 px-3 sm:px-6">
+    <div class="glow-orb" style="width:300px;height:300px;background:var(--cyan);top:40px;right:-150px" data-glow></div>
     <div class="max-w-6xl mx-auto">
       <div class="reveal"><h2 class="stitle">TECHNICAL SKILLS</h2><div class="sline"></div></div>
-      <div class="grid md:grid-cols-2 gap-8 lg:gap-10 items-center mb-12 sm:mb-16">
-        <div class="glass p-4 sm:p-6 reveal rd1"><canvas id="radarChart" height="280"></canvas></div>
-        <div class="grid grid-cols-3 gap-4 sm:gap-6 reveal rd2" id="ringsC"></div>
+      <div class="grid md:grid-cols-2 gap-6 lg:gap-8 items-center mb-10 sm:mb-14">
+        <div class="glass p-3 sm:p-5 reveal rd1"><canvas id="radarChart" height="260"></canvas></div>
+        <div class="grid grid-cols-3 gap-3 sm:gap-5 reveal rd2" id="ringsC"></div>
       </div>
-      <div id="skillTags" class="space-y-5 reveal rd3"></div>
+      <div id="skillTags" class="space-y-4 reveal rd3"></div>
     </div>
   </section>
 
-  <section id="projects" class="relative z-10 py-16 sm:py-24 px-4 sm:px-6 grid-bg">
-    <div class="glow-orb" style="width:350px;height:350px;background:var(--gold);top:-100px;left:-150px" data-glow></div>
+  <section id="projects" class="relative z-10 py-12 sm:py-20 px-3 sm:px-6 grid-bg">
+    <div class="glow-orb" style="width:250px;height:250px;background:var(--gold);top:-80px;left:-120px" data-glow></div>
     <div class="max-w-6xl mx-auto">
       <div class="reveal"><h2 class="stitle">PERSONAL PROJECTS</h2><div class="sline"></div></div>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5" id="projGrid"></div>
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4" id="projGrid"></div>
     </div>
   </section>
 
-  <section id="soft-skills" class="relative z-10 py-16 sm:py-24 px-4 sm:px-6">
-    <div class="glow-orb" style="width:300px;height:300px;background:var(--mint);bottom:-50px;right:-100px" data-glow></div>
+  <section id="soft-skills" class="relative z-10 py-12 sm:py-20 px-3 sm:px-6">
+    <div class="glow-orb" style="width:250px;height:250px;background:var(--mint);bottom:-40px;right:-80px" data-glow></div>
     <div class="max-w-3xl mx-auto">
       <div class="reveal"><h2 class="stitle">SOFT SKILLS</h2><div class="sline"></div></div>
-      <div class="space-y-4" id="softBars"></div>
+      <div class="space-y-3.5" id="softBars"></div>
     </div>
   </section>
 </main>
 
-<footer class="relative z-10 py-12 sm:py-16 px-4 sm:px-6" style="background:var(--bg2);border-top:1px solid var(--border)">
+<footer class="relative z-10 py-10 sm:py-14 px-3 sm:px-6" style="background:var(--bg2);border-top:1px solid var(--border)">
   <div class="max-w-4xl mx-auto">
-    <div class="grid sm:grid-cols-2 gap-6 sm:gap-8 mb-8">
+    <div class="grid sm:grid-cols-2 gap-5 sm:gap-8 mb-6">
       <div>
-        <h3 class="font-display text-cyan text-xs tracking-widest mb-5">CONTACT INFO</h3>
+        <h3 class="font-display text-cyan text-xs tracking-widest mb-4">CONTACT INFO</h3>
         <div class="foot-row"><i class="fas fa-user"></i><span>مهدی — ۲۵ سال</span></div>
         <div class="foot-row"><i class="fas fa-map-marker-alt"></i><span>تهران، گیشا</span></div>
         <div class="foot-row"><i class="fas fa-graduation-cap"></i><span>کارشناسی مهندسی پزشکی</span></div>
       </div>
       <div>
-        <h3 class="font-display text-cyan text-xs tracking-widest mb-5">LANGUAGES</h3>
+        <h3 class="font-display text-cyan text-xs tracking-widest mb-4">LANGUAGES</h3>
         <div class="foot-row"><i class="fas fa-language"></i><span>فارسی — زبان مادری</span></div>
         <div class="foot-row"><i class="fas fa-globe"></i><span>انگلیسی — متوسط</span></div>
         <div class="foot-row" style="border:none"><i class="fas fa-code"></i><span>Python — حرفه‌ای</span></div>
       </div>
     </div>
-    <div style="height:1px;background:var(--border);margin-bottom:1.2rem"></div>
-    <p class="text-center text-xs" style="color:var(--muted)"><span class="font-display tracking-widest" style="color:rgba(0,212,255,0.4);font-size:.6rem">MEHDI.IT</span>&nbsp;&mdash;&nbsp;طراحی شده با کد خالص، Three.js و Chart.js</p>
+    <div style="height:1px;background:var(--border);margin-bottom:1rem"></div>
+    <p class="text-center" style="color:var(--muted);font-size:.65rem"><span class="font-display tracking-widest" style="color:rgba(0,212,255,0.4);font-size:.55rem">MEHDI.IT</span>&nbsp;&mdash;&nbsp;Built with Three.js & Chart.js</p>
   </div>
 </footer>
 
-<!-- پخش‌کننده موسیقی -->
 <button id="musicToggle" class="paused" aria-label="پخش موسیقی">
   <div class="eq-bars"><div class="eq-bar"></div><div class="eq-bar"></div><div class="eq-bar"></div><div class="eq-bar"></div></div>
 </button>
 <div id="musicPanel">
-  <button class="mp-close" aria-label="بستن"><i class="fas fa-chevron-right"></i></button>
-  <div class="mp-art" id="mpArt"><div class="mp-art-inner" id="mpArtInner"><i class="fas fa-music"></i></div></div>
-  <div class="mp-title" id="mpTitle">---</div>
-  <div class="mp-artist" id="mpArtist">---</div>
+  <div class="mp-top">
+    <div class="mp-art" id="mpArt"><div class="mp-art-inner" id="mpArtInner"><i class="fas fa-music"></i></div></div>
+    <div class="mp-info">
+      <div class="mp-title" id="mpTitle">---</div>
+      <div class="mp-artist" id="mpArtist">---</div>
+    </div>
+    <button class="mp-close" aria-label="بستن"><i class="fas fa-xmark"></i></button>
+  </div>
   <div class="mp-progress-wrap" id="mpProgressWrap"><div class="mp-progress-fill" id="mpProgressFill"></div></div>
   <div class="mp-time"><span id="mpCurTime">0:00</span><span id="mpTotalTime">0:00</span></div>
   <div class="mp-controls">
@@ -337,244 +335,112 @@ body{font-family:'Vazirmatn',sans-serif;background:var(--bg);color:var(--text);o
   </div>
 </div>
 
-<!-- ===== اسکریپت اصلی ===== -->
 <script>
-/* ===== لیست پخش — آهنگ‌های خودت رو اینجا بذار ===== */
+/* ===== لیست آهنگ — اسم فایل‌ها رو دقیقاً مثل گیت‌هاب بنویس ===== */
 var playlist=[
   {src:'music/musicsong1.mp3',title:'Song 1',artist:'Artist',cover:'linear-gradient(135deg,#00d4ff,#006994)'},
-  {src:'music/Never_Get_Used_To_People_Life_Letters_Long_Version_Never_G.m4a',title:'Never Get Used To People',artist:'Life Letters',cover:'linear-gradient(135deg,#00ff88,#004d29)'},
+  {src:'music/Never_Get_Used_To_People_Life_Letters_Long_Version_Never_G.mp3',title:'Never Get Used To People',artist:'Life Letters',cover:'linear-gradient(135deg,#00ff88,#004d29)'},
   {src:'music/Miss You (Bonus Track) Oliver Tree Robin Schulz.mp3',title:'Miss You',artist:'Oliver Tree & Robin Schulz',cover:'linear-gradient(135deg,#f0b429,#7a5a00)'},
   {src:'music/Thunder OsMan.mp3',title:'Thunder',artist:'OsMan',cover:'linear-gradient(135deg,#ff6b9d,#7a1038)'},
   {src:'music/LUZ ROJA - Slowed.mp3',title:'LUZ ROJA',artist:'Slowed',cover:'linear-gradient(135deg,#a29bfe,#4a3a8a)'}
 ];
-/* ================================================ */
 
-var SC=[{name:'سیستم‌عامل',color:'#00d4ff',icon:'fa-desktop',skills:['Windows 10/11','Linux (Ubuntu, Kali)','Windows Installation','Driver Installation','Active Directory','Microsoft 365','Remote Desktop','AnyDesk']},{name:'شبکه',color:'#00ff88',icon:'fa-network-wired',skills:['TCP/IP','DNS','DHCP','VLAN','VPN','NAT','Firewall','Mikrotik','Cisco','Wireshark','Switching','Patch Panel','کابل‌کشی شبکه']},{name:'سخت‌افزار',color:'#f0b429',icon:'fa-microchip',skills:['اسمبل حرفه‌ای سیستم','تعمیر لپ‌تاپ','ارتقاء سخت‌افزار','تعویض SSD','تعویض RAM','تعویض کارت گرافیک','BIOS','Firmware Update','تست پاور','عیب‌یابی تخصصی']},{name:'مجازی‌سازی',color:'#ff6b9d',icon:'fa-cubes',skills:['VMware Workstation','VirtualBox']},{name:'امنیت',color:'#ff4757',icon:'fa-shield-halved',skills:['Microsoft Defender','آنتی‌ویروس سازمانی','Backup & Restore','Encryption','OSINT']},{name:'برنامه‌نویسی و DevOps',color:'#a29bfe',icon:'fa-code',skills:['Python','Git','GitHub','GitLab','Docker','Docker Compose','Linux Server','SSH','Nginx']},{name:'هوش مصنوعی',color:'#fd79a8',icon:'fa-brain',skills:['ChatGPT','Claude','Gemini','Microsoft Copilot','Cursor','MCP','Ollama','Stable Diffusion','ComfyUI']}];
+var SC=[{name:'سیستم‌عامل',color:'#00d4ff',icon:'fa-desktop',skills:['Windows 10/11','Linux (Ubuntu, Kali)','Active Directory','Microsoft 365','Remote Desktop','AnyDesk']},{name:'شبکه',color:'#00ff88',icon:'fa-network-wired',skills:['TCP/IP','DNS','DHCP','VLAN','VPN','NAT','Firewall','Mikrotik','Cisco','Wireshark','Switching','Patch Panel','کابل‌کشی شبکه']},{name:'سخت‌افزار',color:'#f0b429',icon:'fa-microchip',skills:['اسمبل حرفه‌ای سیستم','تعمیر لپ‌تاپ','ارتقاء سخت‌افزار','تعویض SSD','تعویض RAM','تعویض کارت گرافیک','BIOS','Firmware Update','تست پاور','عیب‌یابی تخصصی']},{name:'مجازی‌سازی',color:'#ff6b9d',icon:'fa-cubes',skills:['VMware Workstation','VirtualBox']},{name:'امنیت',color:'#ff4757',icon:'fa-shield-halved',skills:['Microsoft Defender','آنتی‌ویروس سازمانی','Backup & Restore','Encryption','OSINT']},{name:'برنامه‌نویسی و DevOps',color:'#a29bfe',icon:'fa-code',skills:['Python','Git','GitHub','GitLab','Docker','Docker Compose','Linux Server','SSH','Nginx']},{name:'هوش مصنوعی',color:'#fd79a8',icon:'fa-brain',skills:['ChatGPT','Claude','Gemini','Microsoft Copilot','Cursor','MCP','Ollama','Stable Diffusion','ComfyUI']}];
 var RD=[{label:'سیستم‌عامل',pct:90,color:'#00d4ff'},{label:'شبکه',pct:85,color:'#00ff88'},{label:'سخت‌افزار',pct:95,color:'#f0b429'},{label:'مجازی‌سازی',pct:75,color:'#ff6b9d'},{label:'امنیت',pct:70,color:'#ff4757'},{label:'برنامه‌نویسی',pct:80,color:'#a29bfe'}];
-var PD=[{icon:'fa-robot',title:'ربات‌های Telegram',desc:'توسعه ربات‌های هوشمند با Python',color:'#00d4ff'},{icon:'fa-gears',title:'ابزارهای اتوماسیون',desc:'اسکریپت‌های اتوماسیون فرآیندهای IT',color:'#00ff88'},{icon:'fa-camera',title:'ربات Instagram',desc:'ربات تعامل و مدیریت حساب',color:'#f0b429'},{icon:'fa-palette',title:'طراحی رابط کاربری',desc:'UI مدرن برای ابزارهای داخلی',color:'#ff6b9d'},{icon:'fa-server',title:'سرویس‌های Linux',desc:'راه‌اندازی سرویس‌ها روی لینوکس',color:'#a29bfe'},{icon:'fa-cube',title:'مدیریت Docker',desc:'کانتینرسازی با Docker Compose',color:'#ff4757'},{icon:'fa-brain',title:'پروژه‌های AI',desc:'پیاده‌سازی پروژه‌های مبتنی بر AI',color:'#fd79a8'},{icon:'fa-plug',title:'اتوماسیون API',desc:'اتوماسیون فرآیندهای سازمانی',color:'#00d4ff'}];
-var SD=[{name:'حل مسئله',pct:95,color:'#00d4ff'},{name:'عیب‌یابی سیستم‌ها',pct:95,color:'#00ff88'},{name:'یادگیری سریع',pct:90,color:'#f0b429'},{name:'مسئولیت‌پذیری',pct:90,color:'#ff6b9d'},{name:'ارتباط مؤثر با کاربران',pct:85,color:'#a29bfe'},{name:'کار تیمی',pct:85,color:'#fd79a8'},{name:'مدیریت شرایط بحرانی',pct:85,color:'#ff4757'},{name:'مدیریت زمان',pct:80,color:'#00d4ff'},{name:'مستندسازی فنی',pct:80,color:'#00ff88'}];
+var PD=[{icon:'fa-robot',title:'ربات‌های Telegram',desc:'توسعه با Python',color:'#00d4ff'},{icon:'fa-gears',title:'ابزارهای اتوماسیون',desc:'اسکریپت‌های IT',color:'#00ff88'},{icon:'fa-camera',title:'ربات Instagram',desc:'مدیریت حساب',color:'#f0b429'},{icon:'fa-palette',title:'طراحی رابط کاربری',desc:'UI مدرن',color:'#ff6b9d'},{icon:'fa-server',title:'سرویس‌های Linux',desc:'پیکربندی لینوکس',color:'#a29bfe'},{icon:'fa-cube',title:'مدیریت Docker',desc:'کانتینرسازی',color:'#ff4757'},{icon:'fa-brain',title:'پروژه‌های AI',desc:'پیاده‌سازی AI',color:'#fd79a8'},{icon:'fa-plug',title:'اتوماسیون API',desc:'فرآیندهای سازمانی',color:'#00d4ff'}];
+var SD=[{name:'حل مسئله',pct:95,color:'#00d4ff'},{name:'عیب‌یابی سیستم‌ها',pct:95,color:'#00ff88'},{name:'یادگیری سریع',pct:90,color:'#f0b429'},{name:'مسئولیت‌پذیری',pct:90,color:'#ff6b9d'},{name:'ارتباط مؤثر',pct:85,color:'#a29bfe'},{name:'کار تیمی',pct:85,color:'#fd79a8'},{name:'مدیریت بحران',pct:85,color:'#ff4757'},{name:'مدیریت زمان',pct:80,color:'#00d4ff'},{name:'مستندسازی فنی',pct:80,color:'#00ff88'}];
 
-/* لودینگ */
 setTimeout(function(){var l=document.getElementById('loader');l.style.opacity='0';setTimeout(function(){l.style.display='none';startTyping()},600)},2200);
 
-function startTyping(){var el=document.getElementById('heroSub');var tx=['متخصص IT و پشتیبانی فنی','فروش و مونتاژ سیستم‌های کامپیوتری','برنامه‌نویس Python','علاقه‌مند به هوش مصنوعی و اتوماسیون'];var ti=0,ci=0,d=false;function tk(){var c=tx[ti];if(!d){el.innerHTML=c.substring(0,++ci)+'<span class="cb"></span>';if(ci===c.length){setTimeout(function(){d=true;tk()},2000);return}setTimeout(tk,55)}else{el.innerHTML=c.substring(0,--ci)+'<span class="cb"></span>';if(ci<0){d=false;ci=0;ti=(ti+1)%tx.length;setTimeout(tk,350);return}setTimeout(tk,28)}}tk()}
+function startTyping(){var el=document.getElementById('heroSub');var tx=['متخصص IT و پشتیبانی فنی','فروش و مونتاژ سیستم‌ها','برنامه‌نویس Python','علاقه‌مند به هوش مصنوعی'];var ti=0,ci=0,d=false;function tk(){var c=tx[ti];if(!d){el.innerHTML=c.substring(0,++ci)+'<span class="cb"></span>';if(ci===c.length){setTimeout(function(){d=true;tk()},2000);return}setTimeout(tk,50)}else{el.innerHTML=c.substring(0,--ci)+'<span class="cb"></span>';if(ci<0){d=false;ci=0;ti=(ti+1)%tx.length;setTimeout(tk,300);return}setTimeout(tk,25)}}tk()}
 
-/* نشانگر ماوس */
-var dot=document.getElementById('cursorDot'),ring=document.getElementById('cursorRing'),mx=0,my=0,rx=0,ry=0,hasPtr=window.matchMedia&&window.matchMedia('(pointer:fine)').matches;
-if(hasPtr){document.addEventListener('mousemove',function(e){mx=e.clientX;my=e.clientY;dot.style.left=mx-4+'px';dot.style.top=my-4+'px'});(function al(){rx+=(mx-rx)*.15;ry+=(my-ry)*.15;ring.style.left=rx-18+'px';ring.style.top=ry-18+'px';requestAnimationFrame(al)})();document.addEventListener('mouseover',function(e){if(e.target.closest('a,.proj-card,.glass,.stag,.nav-link,.mp-btn,#musicToggle'))ring.classList.add('hover')});document.addEventListener('mouseout',function(e){if(e.target.closest('a,.proj-card,.glass,.stag,.nav-link,.mp-btn,#musicToggle'))ring.classList.remove('hover')})}else{dot.style.display='none';ring.style.display='none'}
+/* نشانگر ماوس — فقط دسکتاپ */
+var dot=document.getElementById('cursorDot'),ring=document.getElementById('cursorRing'),mx=0,my=0,rx=0,ry=0;
+if(window.matchMedia&&window.matchMedia('(pointer:fine)').matches&&window.innerWidth>768){
+  dot.style.display='block';ring.style.display='block';
+  document.addEventListener('mousemove',function(e){mx=e.clientX;my=e.clientY;dot.style.left=mx-4+'px';dot.style.top=my-4+'px'});
+  (function al(){rx+=(mx-rx)*.35;ry+=(my-ry)*.35;ring.style.left=rx-18+'px';ring.style.top=ry-18+'px';requestAnimationFrame(al)})();
+  document.addEventListener('mouseover',function(e){if(e.target.closest('a,.proj-card,.glass,.stag,.nav-link,.mp-btn,#musicToggle'))ring.classList.add('hover')});
+  document.addEventListener('mouseout',function(e){if(e.target.closest('a,.proj-card,.glass,.stag,.nav-link,.mp-btn,#musicToggle'))ring.classList.remove('hover')});
+}
 
-/* ناوبری */
 var navbar=document.getElementById('navbar'),secs=document.querySelectorAll('section[id]');
-window.addEventListener('scroll',function(){navbar.classList.toggle('visible',window.scrollY>window.innerHeight*.6);var cur='';secs.forEach(function(s){if(window.scrollY>=s.offsetTop-200)cur=s.id});document.querySelectorAll('.nav-link').forEach(function(l){l.classList.toggle('active',l.getAttribute('href')==='#'+cur)})});
+window.addEventListener('scroll',function(){navbar.classList.toggle('visible',window.scrollY>window.innerHeight*.5);var cur='';secs.forEach(function(s){if(window.scrollY>=s.offsetTop-150)cur=s.id});document.querySelectorAll('.nav-link').forEach(function(l){l.classList.toggle('active',l.getAttribute('href')==='#'+cur)})},{passive:true});
 
-/* ظاهرشدن */
-var rObs=new IntersectionObserver(function(e){e.forEach(function(en){if(en.isIntersecting)en.target.classList.add('in-view')})},{threshold:.12});
+var rObs=new IntersectionObserver(function(e){e.forEach(function(en){if(en.isIntersecting)en.target.classList.add('in-view')})},{threshold:.1});
 document.querySelectorAll('.reveal,.tl-item,.glow-orb').forEach(function(el){rObs.observe(el)});
 
-/* شمارنده */
-var cObs=new IntersectionObserver(function(e){e.forEach(function(en){if(en.isIntersecting&&!en.target.dataset.ct){en.target.dataset.ct='1';var tg=parseInt(en.target.dataset.count);var st=performance.now();function u(n){var p=Math.min((n-st)/1800,1);en.target.textContent=Math.floor((1-Math.pow(1-p,3))*tg)+'+';if(p<1)requestAnimationFrame(u)}requestAnimationFrame(u)}})},{threshold:.5});
+var cObs=new IntersectionObserver(function(e){e.forEach(function(en){if(en.isIntersecting&&!en.target.dataset.ct){en.target.dataset.ct='1';var tg=parseInt(en.target.dataset.count);var st=performance.now();function u(n){var p=Math.min((n-st)/1500,1);en.target.textContent=Math.floor((1-Math.pow(1-p,3))*tg)+'+';if(p<1)requestAnimationFrame(u)}requestAnimationFrame(u)}})},{threshold:.4});
 document.querySelectorAll('.stat-num').forEach(function(el){cObs.observe(el)});
 
-/* حلقه‌ها */
-var rC=document.getElementById('ringsC'),R=50,C=2*Math.PI*R;
-RD.forEach(function(d){var o=C*(1-d.pct/100);var dv=document.createElement('div');dv.className='ring-c';dv.innerHTML='<svg width="110" height="110" class="ring-svg" viewBox="0 0 120 120"><circle cx="60" cy="60" r="'+R+'" class="ring-bg"/><circle cx="60" cy="60" r="'+R+'" class="ring-prog" stroke="'+d.color+'" stroke-dasharray="'+C+'" stroke-dashoffset="'+C+'" data-t="'+o+'"/><text x="60" y="60" text-anchor="middle" dy=".35em" class="ring-txt">'+d.pct+'%</text></svg><span class="ring-lbl">'+d.label+'</span>';rC.appendChild(dv)});
+var rC=document.getElementById('ringsC'),R=45,C=2*Math.PI*R;
+RD.forEach(function(d){var o=C*(1-d.pct/100);var dv=document.createElement('div');dv.className='ring-c';dv.innerHTML='<svg width="95" height="95" class="ring-svg" viewBox="0 0 110 110"><circle cx="55" cy="55" r="'+R+'" class="ring-bg"/><circle cx="55" cy="55" r="'+R+'" class="ring-prog" stroke="'+d.color+'" stroke-dasharray="'+C+'" stroke-dashoffset="'+C+'" data-t="'+o+'"/><text x="55" y="55" text-anchor="middle" dy=".35em" class="ring-txt">'+d.pct+'%</text></svg><span class="ring-lbl">'+d.label+'</span>';rC.appendChild(dv)});
 var rgObs=new IntersectionObserver(function(e){e.forEach(function(en){if(en.isIntersecting)en.target.querySelectorAll('.ring-prog').forEach(function(c){c.style.strokeDashoffset=c.dataset.t})})},{threshold:.3});rgObs.observe(rC);
 
-/* تگ‌ها */
 var stC=document.getElementById('skillTags');
-SC.forEach(function(c){var d=document.createElement('div');d.className='glass p-4 sm:p-5';d.innerHTML='<h4 class="flex items-center gap-2 mb-3 text-xs sm:text-sm font-bold" style="color:'+c.color+'"><i class="fas '+c.icon+'"></i> '+c.name+'</h4><div class="flex flex-wrap gap-1.5 sm:gap-2">'+c.skills.map(function(s){return '<span class="stag" style="color:'+c.color+';border-color:'+c.color+'33;background:'+c.color+'0a">'+s+'</span>'}).join('')+'</div>';stC.appendChild(d)});
+SC.forEach(function(c){var d=document.createElement('div');d.className='glass p-3 sm:p-4';d.innerHTML='<h4 class="flex items-center gap-1.5 mb-2 text-xs font-bold" style="color:'+c.color+'"><i class="fas '+c.icon+'"></i> '+c.name+'</h4><div class="flex flex-wrap gap-1 sm:gap-1.5">'+c.skills.map(function(s){return '<span class="stag" style="color:'+c.color+';border-color:'+c.color+'33;background:'+c.color+'0a">'+s+'</span>'}).join('')+'</div>';stC.appendChild(d)});
 
-/* پروژه‌ها */
 var pG=document.getElementById('projGrid');
-PD.forEach(function(p,i){var c=document.createElement('div');c.className='glass proj-card p-4 sm:p-5 reveal rd'+((i%4)+1);c.innerHTML='<div class="proj-icon" style="background:'+p.color+'15;color:'+p.color+'"><i class="fas '+p.icon+'"></i></div><h3 class="font-bold text-sm sm:text-base mb-1.5">'+p.title+'</h3><p class="text-xs sm:text-sm leading-6 sm:leading-7" style="color:var(--muted)">'+p.desc+'</p>';pG.appendChild(c);rObs.observe(c);c.addEventListener('mousemove',function(e){var r=c.getBoundingClientRect();c.style.transform='perspective(800px) rotateX('+(e.clientY-r.top-r.height/2)/15+'deg) rotateY('+(r.width/2-(e.clientX-r.left))/15+'deg) scale(1.03)'});c.addEventListener('mouseleave',function(){c.style.transform=''})});
+PD.forEach(function(p,i){var c=document.createElement('div');c.className='glass proj-card p-3 sm:p-4 reveal rd'+((i%4)+1);c.innerHTML='<div class="proj-icon" style="background:'+p.color+'15;color:'+p.color+'"><i class="fas '+p.icon+'"></i></div><h3 class="font-bold text-xs sm:text-sm mb-1">'+p.title+'</h3><p class="text-xs leading-5" style="color:var(--muted)">'+p.desc+'</p>';pG.appendChild(c);rObs.observe(c)});
 
-/* نوار مهارت نرم */
 var sbC=document.getElementById('softBars');
-SD.forEach(function(s,i){var d=document.createElement('div');d.className='reveal rd'+((i%4)+1);d.innerHTML='<div class="flex justify-between items-center mb-1.5"><span class="text-xs sm:text-sm font-medium">'+s.name+'</span><span class="text-xs font-display font-bold" style="color:'+s.color+'">'+s.pct+'%</span></div><div class="sbar-track"><div class="sbar-fill" data-w="'+s.pct+'" style="background:linear-gradient(90deg,'+s.color+','+s.color+'88)"></div></div>';sbC.appendChild(d);rObs.observe(d)});
-var bObs=new IntersectionObserver(function(e){e.forEach(function(en){if(en.isIntersecting)en.target.querySelectorAll('.sbar-fill').forEach(function(b){b.style.width=b.dataset.w+'%'})})},{threshold:.2});bObs.observe(sbC);
+SD.forEach(function(s,i){var d=document.createElement('div');d.className='reveal rd'+((i%4)+1);d.innerHTML='<div class="flex justify-between items-center mb-1"><span class="text-xs font-medium">'+s.name+'</span><span class="text-xs font-display font-bold" style="color:'+s.color+'">'+s.pct+'%</span></div><div class="sbar-track"><div class="sbar-fill" data-w="'+s.pct+'" style="background:linear-gradient(90deg,'+s.color+','+s.color+'88)"></div></div>';sbC.appendChild(d);rObs.observe(d)});
+var bObs=new IntersectionObserver(function(e){e.forEach(function(en){if(en.isIntersecting)en.target.querySelectorAll('.sbar-fill').forEach(function(b){b.style.width=b.dataset.w+'%'})})},{threshold:.15});bObs.observe(sbC);
 
-/* رادار */
-var rdObs=new IntersectionObserver(function(e){e.forEach(function(en){if(en.isIntersecting&&!en.target.dataset.ini){en.target.dataset.ini='1';new Chart(en.target,{type:'radar',data:{labels:['سیستم‌عامل','شبکه','سخت‌افزار','مجازی‌سازی','امنیت','برنامه‌نویسی و AI'],datasets:[{data:[90,85,95,75,70,80],backgroundColor:'rgba(0,212,255,0.12)',borderColor:'#00d4ff',pointBackgroundColor:'#00d4ff',pointBorderColor:'#00d4ff',pointHoverBackgroundColor:'#00ff88',pointHoverBorderColor:'#00ff88',borderWidth:2,pointRadius:4,pointHoverRadius:6}]},options:{responsive:true,maintainAspectRatio:false,scales:{r:{beginAtZero:true,max:100,min:0,ticks:{display:false,stepSize:20},grid:{color:'rgba(0,212,255,0.08)'},angleLines:{color:'rgba(0,212,255,0.08)'},pointLabels:{color:'#e2e8f0',font:{family:'Vazirmatn',size:window.innerWidth<500?9:12,weight:'500'}}}},plugins:{legend:{display:false},tooltip:{backgroundColor:'rgba(6,11,24,0.9)',borderColor:'rgba(0,212,255,0.3)',borderWidth:1,titleFont:{family:'Vazirmatn'},bodyFont:{family:'Vazirmatn'},callbacks:{label:function(ctx){return ' '+ctx.raw+'%'}}}},animation:{duration:1500,easing:'easeOutQuart'}}})}})},{threshold:.3});rdObs.observe(document.getElementById('radarChart'));
+var rdObs=new IntersectionObserver(function(e){e.forEach(function(en){if(en.isIntersecting&&!en.target.dataset.ini){en.target.dataset.ini='1';new Chart(en.target,{type:'radar',data:{labels:['سیستم‌عامل','شبکه','سخت‌افزار','مجازی‌سازی','امنیت','برنامه‌نویسی و AI'],datasets:[{data:[90,85,95,75,70,80],backgroundColor:'rgba(0,212,255,0.12)',borderColor:'#00d4ff',pointBackgroundColor:'#00d4ff',pointBorderColor:'#00d4ff',pointHoverBackgroundColor:'#00ff88',pointHoverBorderColor:'#00ff88',borderWidth:1.5,pointRadius:3,pointHoverRadius:5}]},options:{responsive:true,maintainAspectRatio:false,scales:{r:{beginAtZero:true,max:100,min:0,ticks:{display:false},grid:{color:'rgba(0,212,255,0.06)'},angleLines:{color:'rgba(0,212,255,0.06)'},pointLabels:{color:'#e2e8f0',font:{family:'Vazirmatn',size:window.innerWidth<400?8:11,weight:'500'}}}},plugins:{legend:{display:false},tooltip:{backgroundColor:'rgba(6,11,24,0.9)',borderColor:'rgba(0,212,255,0.3)',borderWidth:1,titleFont:{family:'Vazirmatn'},bodyFont:{family:'Vazirmatn'},callbacks:{label:function(ctx){return ' '+ctx.raw+'%'}}}},animation:{duration:1200}}})}})},{threshold:.3});rdObs.observe(document.getElementById('radarChart'));
 
-/* ===== پخش‌کننده موسیقی با فایل واقعی ===== */
-var audio=new Audio();
-audio.volume=0.7;
-audio.preload='auto';
-var currentTrack=0;
-var isPlaying=false;
-var progressRAF=null;
-
-/* بارگذاری آهنگ */
-function loadTrack(idx){
-  currentTrack=idx;
-  var t=playlist[idx];
-  audio.src=t.src;
-  document.getElementById('mpTitle').textContent=t.title;
-  document.getElementById('mpArtist').textContent=t.artist;
-  document.getElementById('mpArt').style.background=t.cover;
-  document.getElementById('mpProgressFill').style.width='0%';
-  document.getElementById('mpCurTime').textContent='0:00';
-  document.getElementById('mpTotalTime').textContent='--:--';
-}
-
-/* فرمت زمان */
+/* ===== پخش‌کننده ===== */
+var audio=new Audio();audio.volume=0.7;audio.preload='auto';
+var currentTrack=0,isPlaying=false,progressRAF=null;
+function loadTrack(idx){currentTrack=idx;var t=playlist[idx];audio.src=t.src;document.getElementById('mpTitle').textContent=t.title;document.getElementById('mpArtist').textContent=t.artist;document.getElementById('mpArt').style.background=t.cover;document.getElementById('mpProgressFill').style.width='0%';document.getElementById('mpCurTime').textContent='0:00';document.getElementById('mpTotalTime').textContent='--:--'}
 function fmt(s){if(isNaN(s))return '0:00';var m=Math.floor(s/60);var sec=Math.floor(s%60);return m+':'+(sec<10?'0':'')+sec}
-
-/* به‌روزرسانی پیشرفت */
-function updateProgress(){
-  if(!audio.duration)return;
-  document.getElementById('mpProgressFill').style.width=(audio.currentTime/audio.duration*100)+'%';
-  document.getElementById('mpCurTime').textContent=fmt(audio.currentTime);
-  document.getElementById('mpTotalTime').textContent=fmt(audio.duration);
-  if(isPlaying)progressRAF=requestAnimationFrame(updateProgress);
-}
-
-/* پخش */
-function play(){
-  audio.play().then(function(){
-    isPlaying=true;
-    document.getElementById('mpPlay').innerHTML='<i class="fas fa-pause"></i>';
-    document.getElementById('musicToggle').classList.remove('paused');
-    document.getElementById('mpArtInner').classList.add('spinning');
-    document.getElementById('autoPlayNotice').classList.remove('show');
-    cancelAnimationFrame(progressRAF);
-    updateProgress();
-  }).catch(function(){
-    /* مرورگر اتوپلی رو بلاک کرده */
-  });
-}
-
-/* توقف */
-function pause(){
-  audio.pause();
-  isPlaying=false;
-  cancelAnimationFrame(progressRAF);
-  document.getElementById('mpPlay').innerHTML='<i class="fas fa-play"></i>';
-  document.getElementById('musicToggle').classList.add('paused');
-  document.getElementById('mpArtInner').classList.remove('spinning');
-}
-
-/* پخش/توقف */
+function updateProgress(){if(!audio.duration)return;document.getElementById('mpProgressFill').style.width=(audio.currentTime/audio.duration*100)+'%';document.getElementById('mpCurTime').textContent=fmt(audio.currentTime);document.getElementById('mpTotalTime').textContent=fmt(audio.duration);if(isPlaying)progressRAF=requestAnimationFrame(updateProgress)}
+function play(){audio.play().then(function(){isPlaying=true;document.getElementById('mpPlay').innerHTML='<i class="fas fa-pause"></i>';document.getElementById('musicToggle').classList.remove('paused');document.getElementById('mpArtInner').classList.add('spinning');document.getElementById('autoPlayNotice').classList.remove('show');cancelAnimationFrame(progressRAF);updateProgress()}).catch(function(){})}
+function pause(){audio.pause();isPlaying=false;cancelAnimationFrame(progressRAF);document.getElementById('mpPlay').innerHTML='<i class="fas fa-play"></i>';document.getElementById('musicToggle').classList.add('paused');document.getElementById('mpArtInner').classList.remove('spinning')}
 function togglePlay(){if(isPlaying)pause();else play()}
-
-/* بعدی / قبلی */
 function nextTrack(){pause();loadTrack((currentTrack+1)%playlist.length);play()}
 function prevTrack(){pause();loadTrack((currentTrack-1+playlist.length)%playlist.length);play()}
-
-/* پایان آهنگ — بعدی خودکار */
 audio.addEventListener('ended',function(){nextTrack()});
-
-/* بارگذاری اولین آهنگ */
 loadTrack(0);
-
-/* تلاش اتوپلی */
-audio.play().then(function(){
-  /* اتوپلی موفق */
-}).catch(function(){
-  /* بلاک شده — اعلان نمایش بده */
-  setTimeout(function(){
-    document.getElementById('autoPlayNotice').classList.add('show');
-  },2500);
-});
-
-/* اولین کلیک کاربر = پخش */
+audio.play().then(function(){}).catch(function(){setTimeout(function(){document.getElementById('autoPlayNotice').classList.add('show')},2500)});
 var autoPlayed=false;
-function tryAutoPlay(){
-  if(autoPlayed)return;
-  autoPlayed=true;
-  document.getElementById('autoPlayNotice').classList.remove('show');
-  if(!isPlaying)play();
-}
+function tryAutoPlay(){if(autoPlayed)return;autoPlayed=true;document.getElementById('autoPlayNotice').classList.remove('show');if(!isPlaying)play()}
 document.getElementById('autoPlayNotice').addEventListener('click',tryAutoPlay);
-document.addEventListener('click',function(){if(!autoPlayed&&playlist.length>0)tryAutoPlay()},{once:false});
-
-/* رویدادهای پخش‌کننده */
-document.getElementById('musicToggle').addEventListener('click',function(e){
-  e.stopPropagation();
-  document.getElementById('musicPanel').classList.toggle('open');
-});
-document.querySelector('.mp-close').addEventListener('click',function(){
-  document.getElementById('musicPanel').classList.remove('open');
-});
+document.addEventListener('click',function(){if(!autoPlayed&&playlist.length>0)tryAutoPlay()});
+document.getElementById('musicToggle').addEventListener('click',function(e){e.stopPropagation();document.getElementById('musicPanel').classList.toggle('open')});
+document.querySelector('.mp-close').addEventListener('click',function(e){e.stopPropagation();document.getElementById('musicPanel').classList.remove('open')});
 document.getElementById('mpPlay').addEventListener('click',function(e){e.stopPropagation();togglePlay()});
 document.getElementById('mpNext').addEventListener('click',function(e){e.stopPropagation();nextTrack()});
 document.getElementById('mpPrev').addEventListener('click',function(e){e.stopPropagation();prevTrack()});
-
-/* کلیک روی نوار پیشرفت */
-document.getElementById('mpProgressWrap').addEventListener('click',function(e){
-  e.stopPropagation();
-  if(!audio.duration)return;
-  var rect=e.currentTarget.getBoundingClientRect();
-  var pct=Math.max(0,Math.min(1,(e.clientX-rect.left)/rect.width));
-  audio.currentTime=pct*audio.duration;
-  updateProgress();
-});
-
-/* ولوم */
-document.getElementById('mpVolTrack').addEventListener('click',function(e){
-  e.stopPropagation();
-  var rect=e.currentTarget.getBoundingClientRect();
-  var pct=Math.max(0,Math.min(1,(e.clientX-rect.left)/rect.width));
-  audio.volume=pct;
-  document.getElementById('mpVolFill').style.width=(pct*100)+'%';
-  var icon=document.getElementById('mpVolIcon');
-  icon.className=pct===0?'fas fa-volume-xmark':pct<.4?'fas fa-volume-low':'fas fa-volume-high';
-});
-document.getElementById('mpVolIcon').addEventListener('click',function(e){
-  e.stopPropagation();
-  if(audio.volume>0){audio._pv=audio.volume;audio.volume=0;document.getElementById('mpVolFill').style.width='0%';document.getElementById('mpVolIcon').className='fas fa-volume-xmark'}
-  else{audio.volume=audio._pv||0.7;document.getElementById('mpVolFill').style.width=(audio.volume*100)+'%';document.getElementById('mpVolIcon').className='fas fa-volume-low'}
-});
+document.getElementById('mpProgressWrap').addEventListener('click',function(e){e.stopPropagation();if(!audio.duration)return;var rect=e.currentTarget.getBoundingClientRect();audio.currentTime=Math.max(0,Math.min(1,(e.clientX-rect.left)/rect.width))*audio.duration;updateProgress()});
+document.getElementById('mpVolTrack').addEventListener('click',function(e){e.stopPropagation();var rect=e.currentTarget.getBoundingClientRect();var pct=Math.max(0,Math.min(1,(e.clientX-rect.left)/rect.width));audio.volume=pct;document.getElementById('mpVolFill').style.width=(pct*100)+'%';document.getElementById('mpVolIcon').className=pct===0?'fas fa-volume-xmark':pct<.4?'fas fa-volume-low':'fas fa-volume-high'});
+document.getElementById('mpVolIcon').addEventListener('click',function(e){e.stopPropagation();if(audio.volume>0){audio._pv=audio.volume;audio.volume=0;document.getElementById('mpVolFill').style.width='0%';document.getElementById('mpVolIcon').className='fas fa-volume-xmark'}else{audio.volume=audio._pv||0.7;document.getElementById('mpVolFill').style.width=(audio.volume*100)+'%';document.getElementById('mpVolIcon').className='fas fa-volume-low'}});
 </script>
 
-<!-- ===== سه‌بعدی ===== -->
 <script type="module">
 try{
   const THREE=await import('https://unpkg.com/three@0.160.0/build/three.module.js');
-  const canvas=document.getElementById('three-canvas');
-  if(!canvas)throw new Error('no canvas');
-  const renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true});
-  renderer.setSize(window.innerWidth,window.innerHeight);
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
-  const scene=new THREE.Scene();
-  const camera=new THREE.PerspectiveCamera(60,window.innerWidth/window.innerHeight,0.1,200);
-  camera.position.z=35;
-
+  const canvas=document.getElementById('three-canvas');if(!canvas)throw 0;
+  const renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true});renderer.setSize(window.innerWidth,window.innerHeight);renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+  const scene=new THREE.Scene();const camera=new THREE.PerspectiveCamera(60,window.innerWidth/window.innerHeight,0.1,200);camera.position.z=35;
   function mkTex(){const s=64,c=document.createElement('canvas');c.width=s;c.height=s;const x=c.getContext('2d'),h=s/2;const g=x.createRadialGradient(h,h,0,h,h,h);g.addColorStop(0,'#ffffff');g.addColorStop(0.15,'#00d4ff');g.addColorStop(0.4,'rgba(0,212,255,0.35)');g.addColorStop(1,'rgba(0,212,255,0)');x.fillStyle=g;x.fillRect(0,0,s,s);return new THREE.CanvasTexture(c)}
-
-  const isMob=window.innerWidth<768;const PC=isMob?300:600;
-  const pG=new THREE.BufferGeometry();const pP=new Float32Array(PC*3);
+  const isMob=window.innerWidth<768;const PC=isMob?200:600;const pG=new THREE.BufferGeometry();const pP=new Float32Array(PC*3);
   for(let i=0;i<PC;i++){const r=8+Math.random()*28;const t=Math.random()*Math.PI*2;const p=Math.acos(2*Math.random()-1);pP[i*3]=r*Math.sin(p)*Math.cos(t);pP[i*3+1]=r*Math.sin(p)*Math.sin(t);pP[i*3+2]=r*Math.cos(p)}
   pG.setAttribute('position',new THREE.BufferAttribute(pP,3));
-  const pM=new THREE.PointsMaterial({map:mkTex(),size:isMob?1.5:1.2,transparent:true,opacity:.7,blending:THREE.AdditiveBlending,depthWrite:false,sizeAttenuation:true,color:0x00d4ff});
+  const pM=new THREE.PointsMaterial({map:mkTex(),size:isMob?1.8:1.2,transparent:true,opacity:.6,blending:THREE.AdditiveBlending,depthWrite:false,sizeAttenuation:true,color:0x00d4ff});
   const particles=new THREE.Points(pG,pM);scene.add(particles);
-
   const shapes=[];
-  function addSh(geo,color,pos,sc){const wm=new THREE.MeshBasicMaterial({color,wireframe:true,transparent:true,opacity:.2});const sm=new THREE.MeshBasicMaterial({color,transparent:true,opacity:.03});const g=new THREE.Group();g.add(new THREE.Mesh(geo,wm));g.add(new THREE.Mesh(geo,sm));g.position.set(pos[0],pos[1],pos[2]);g.scale.setScalar(sc);scene.add(g);shapes.push({g,rx:Math.random()*.005,ry:Math.random()*.008,rz:Math.random()*.003,bs:.3+Math.random()*.5,ba:.5+Math.random()*1.5,by:pos[1]})}
-  addSh(new THREE.IcosahedronGeometry(1,1),0x00d4ff,[-8,3,-5],2.5);
-  addSh(new THREE.OctahedronGeometry(1,0),0x00ff88,[10,-2,-8],2);
-  addSh(new THREE.TorusGeometry(1,.35,8,24),0xf0b429,[-5,-5,-3],1.8);
-  addSh(new THREE.TetrahedronGeometry(1,0),0xff6b9d,[7,6,-10],1.5);
-  addSh(new THREE.DodecahedronGeometry(1,0),0xa29bfe,[-12,-3,-12],1.3);
-
-  const lp=[];const pa=pG.attributes.position.array;
-  for(let i=0;i<PC;i++)for(let j=i+1;j<PC;j++){const dx=pa[i*3]-pa[j*3],dy=pa[i*3+1]-pa[j*3+1],dz=pa[i*3+2]-pa[j*3+2];if(Math.sqrt(dx*dx+dy*dy+dz*dz)<6){lp.push(pa[i*3],pa[i*3+1],pa[i*3+2],pa[j*3],pa[j*3+1],pa[j*3+2])}}
+  function addSh(geo,color,pos,sc){const wm=new THREE.MeshBasicMaterial({color,wireframe:true,transparent:true,opacity:.15});const sm=new THREE.MeshBasicMaterial({color,transparent:true,opacity:.02});const g=new THREE.Group();g.add(new THREE.Mesh(geo,wm));g.add(new THREE.Mesh(geo,sm));g.position.set(pos[0],pos[1],pos[2]);g.scale.setScalar(sc);scene.add(g);shapes.push({g,rx:Math.random()*.005,ry:Math.random()*.008,rz:Math.random()*.003,bs:.3+Math.random()*.5,ba:.5+Math.random()*1.5,by:pos[1]})}
+  addSh(new THREE.IcosahedronGeometry(1,1),0x00d4ff,[-8,3,-5],2.5);addSh(new THREE.OctahedronGeometry(1,0),0x00ff88,[10,-2,-8],2);addSh(new THREE.TorusGeometry(1,.35,8,24),0xf0b429,[-5,-5,-3],1.8);addSh(new THREE.TetrahedronGeometry(1,0),0xff6b9d,[7,6,-10],1.5);addSh(new THREE.DodecahedronGeometry(1,0),0xa29bfe,[-12,-3,-12],1.3);
+  const lp=[];const pa=pG.attributes.position.array;for(let i=0;i<PC;i++)for(let j=i+1;j<PC;j++){const dx=pa[i*3]-pa[j*3],dy=pa[i*3+1]-pa[j*3+1],dz=pa[i*3+2]-pa[j*3+2];if(Math.sqrt(dx*dx+dy*dy+dz*dz)<6){lp.push(pa[i*3],pa[i*3+1],pa[i*3+2],pa[j*3],pa[j*3+1],pa[j*3+2])}}
   const lG=new THREE.BufferGeometry();lG.setAttribute('position',new THREE.Float32BufferAttribute(lp,3));
-  const lines=new THREE.LineSegments(lG,new THREE.LineBasicMaterial({color:0x00d4ff,transparent:true,opacity:.06,blending:THREE.AdditiveBlending,depthWrite:false}));
-  scene.add(lines);
-
+  const lines=new THREE.LineSegments(lG,new THREE.LineBasicMaterial({color:0x00d4ff,transparent:true,opacity:.05,blending:THREE.AdditiveBlending,depthWrite:false}));scene.add(lines);
   let tx=0,ty=0;
   if(window.matchMedia('(pointer:fine)').matches){document.addEventListener('mousemove',function(e){tx=(e.clientX/window.innerWidth-.5)*2;ty=(e.clientY/window.innerHeight-.5)*2})}
   let cx=0,cy=0;const clock=new THREE.Clock();
-  function animate(){requestAnimationFrame(animate);const t=clock.getElapsedTime();
-    particles.rotation.y=t*.03;particles.rotation.x=Math.sin(t*.02)*.1;
-    lines.rotation.y=t*.03;lines.rotation.x=Math.sin(t*.02)*.1;
-    shapes.forEach(function(s){s.g.rotation.x+=s.rx;s.g.rotation.y+=s.ry;s.g.rotation.z+=s.rz;s.g.position.y=s.by+Math.sin(t*s.bs)*s.ba});
-    cx+=(tx*3-cx)*.04;cy+=(-ty*2-cy)*.04;camera.position.x=cx;camera.position.y=cy;camera.lookAt(0,0,0);
-    pM.color.setHSL(.52+Math.sin(t*.3)*.05,1,.55);renderer.render(scene,camera)}
-  animate();
-  window.addEventListener('resize',function(){camera.aspect=window.innerWidth/window.innerHeight;camera.updateProjectionMatrix();renderer.setSize(window.innerWidth,window.innerHeight)});
-}catch(err){console.warn('Three.js load skipped:',err)}
+  function animate(){requestAnimationFrame(animate);const t=clock.getElapsedTime();particles.rotation.y=t*.03;particles.rotation.x=Math.sin(t*.02)*.1;lines.rotation.y=t*.03;lines.rotation.x=Math.sin(t*.02)*.1;shapes.forEach(function(s){s.g.rotation.x+=s.rx;s.g.rotation.y+=s.ry;s.g.rotation.z+=s.rz;s.g.position.y=s.by+Math.sin(t*s.bs)*s.ba});cx+=(tx*3-cx)*.08;cy+=(-ty*2-cy)*.08;camera.position.x=cx;camera.position.y=cy;camera.lookAt(0,0,0);pM.color.setHSL(.52+Math.sin(t*.3)*.05,1,.55);renderer.render(scene,camera)}
+  animate();window.addEventListener('resize',function(){camera.aspect=window.innerWidth/window.innerHeight;camera.updateProjectionMatrix();renderer.setSize(window.innerWidth,window.innerHeight)});
+}catch(e){}
 </script>
 </body>
 </html>
