@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mehdi — IT Specialist Resume</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Vazirmatn:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+    }
+  }
+  </script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { display: ['Orbitron','sans-serif'], body: ['Vazirmatn','sans-serif'] },
+          colors: { navy: '#060b18', 'navy-l': '#0a1628', cyan: '#00d4ff', mint: '#00ff88', gold: '#f0b429' }
+        }
+      }
+    }
+  </script>
+  <style>
+    :root {
+      --bg: #060b18; --bg2: #0a1628; --cyan: #00d4ff; --mint: #00ff88;
+      --gold: #f0b429; --text: #e2e8f0; --muted: #64748b; --card: rgba(10,22,40,0.75);
+      --border: rgba(0,212,255,0.12); --glow-cyan: rgba(0,212,255,0.15); --glow-mint: rgba(0,255,136,0.12);
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family:'Vazirmatn',sans-serif; background:var(--bg); color:var(--text); overflow-x:hidden; }
+
+    /* ===== بارگذاری ===== */
+    #loader {
+      position:fixed; inset:0; z-index:9999; background:var(--bg);
+      display:flex; flex-direction:column; align-items:center; justify-content:center;
+      transition: opacity .6s ease;
+    }
+    .loader-name {
+      font-family:'Orbitron',sans-serif; font-size:clamp(2.5rem,8vw,5rem); font-weight:900;
+      background:linear-gradient(135deg,var(--cyan),var(--mint));
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+      animation: loaderPulse 1.5s ease-in-out infinite;
+    }
+    .loader-bar { width:220px; height:3px; background:rgba(0,212,255,0.15); border-radius:4px; margin-top:2rem; overflow:hidden; }
+    .loader-fill { height:100%; width:0; background:linear-gradient(90deg,var(--cyan),var(--mint)); border-radius:4px; animation:loadFill 2.2s ease-in-out forwards; }
+    @keyframes loaderPulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.7;transform:scale(1.03)} }
+    @keyframes loadFill { 0%{width:0} 40%{width:55%} 100%{width:100%} }
+
+    /* ===== نشانگر ماوس سفارشی ===== */
+    .cursor-dot { position:fixed; width:8px; height:8px; background:var(--cyan); border-radius:50%; pointer-events:none; z-index:9998; transition:transform .1s; mix-blend-mode:screen; }
+    .cursor-ring { position:fixed; width:36px; height:36px; border:1.5px solid rgba(0,212,255,0.5); border-radius:50%; pointer-events:none; z-index:9997; transition:transform .25s ease, width .3s, height .3s, border-color .3s; }
+    .cursor-ring.hover { width:56px; height:56px; border-color:var(--mint); }
+
+    /* ===== بوم سه‌بعدی ===== */
+    #three-canvas { position:fixed; inset:0; z-index:0; pointer-events:none; }
+
+    /* ===== ناوبری ===== */
+    #navbar {
+      position:fixed; top:0; left:0; right:0; z-index:100;
+      background:rgba(6,11,24,0.85); backdrop-filter:blur(16px); border-bottom:1px solid var(--border);
+      transform:translateY(-100%); transition:transform .4s ease;
+    }
+    #navbar.visible { transform:translateY(0); }
+    .nav-link { position:relative; color:var(--muted); transition:color .3s; font-size:.9rem; }
+    .nav-link:hover, .nav-link.active { color:var(--cyan); }
+    .nav-link::after { content:''; position:absolute; bottom:-4px; right:0; width:0; height:2px; background:var(--cyan); transition:width .3s; }
+    .nav-link:hover::after, .nav-link.active::after { width:100%; }
+
+    /* ===== قهرمان ===== */
+    #hero { position:relative; z-index:1; min-height:100vh; display:flex; align-items:center; justify-content:center; text-align:center; }
+    .hero-name {
+      font-family:'Orbitron',sans-serif; font-size:clamp(3rem,10vw,7rem); font-weight:900; line-height:1.1;
+      background:linear-gradient(135deg,var(--cyan) 0%,var(--mint) 50%,var(--gold) 100%);
+      background-size:200% 200%; -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+      animation: gradientShift 6s ease infinite;
+    }
+    @keyframes gradientShift { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+    .hero-sub { font-size:clamp(1rem,2.5vw,1.5rem); color:var(--muted); min-height:2em; }
+    .hero-sub .cursor-blink { display:inline-block; width:2px; height:1.2em; background:var(--cyan); margin-right:4px; animation:blink .8s step-end infinite; vertical-align:middle; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+    .hero-badge {
+      display:inline-flex; align-items:center; gap:.5rem; margin-top:1.5rem; padding:.5rem 1.5rem;
+      background:rgba(0,212,255,0.08); border:1px solid rgba(0,212,255,0.25); border-radius:100px;
+      font-size:.9rem; color:var(--cyan);
+    }
+    .scroll-indicator { position:absolute; bottom:2rem; left:50%; transform:translateX(-50%); animation:scrollBounce 2s ease-in-out infinite; }
+    @keyframes scrollBounce { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(10px)} }
+
+    /* ===== کارت شیشه‌ای ===== */
+    .glass {
+      background:var(--card); backdrop-filter:blur(20px); border:1px solid var(--border);
+      border-radius:16px; position:relative; overflow:hidden;
+    }
+    .glass::before {
+      content:''; position:absolute; inset:0; border-radius:16px; padding:1px;
+      background:linear-gradient(135deg,rgba(0,212,255,0.2),transparent 50%,rgba(0,255,136,0.1));
+      -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+      -webkit-mask-composite:xor; mask-composite:exclude; pointer-events:none;
+    }
+
+    /* ===== بخش‌ها ===== */
+    .section-title {
+      font-family:'Orbitron',sans-serif; font-size:clamp(1.3rem,3vw,1.8rem); font-weight:700;
+      color:var(--cyan); margin-bottom:.5rem; letter-spacing:1px;
+    }
+    .section-line { width:60px; height:3px; background:linear-gradient(90deg,var(--cyan),var(--mint)); border-radius:3px; margin-bottom:3rem; }
+
+    /* ===== آمار ===== */
+    .stat-box { text-align:center; padding:1.5rem 1rem; }
+    .stat-num { font-family:'Orbitron',sans-serif; font-size:2.2rem; font-weight:800; color:var(--cyan); }
+    .stat-label { font-size:.85rem; color:var(--muted); margin-top:.25rem; }
+
+    /* ===== تایم‌لاین ===== */
+    .timeline { position:relative; padding-right:32px; border-right:2px solid rgba(0,212,255,0.15); }
+    .timeline-item { position:relative; margin-bottom:3rem; }
+    .timeline-dot {
+      position:absolute; right:-41px; top:8px; width:16px; height:16px; border-radius:50%;
+      background:var(--bg2); border:3px solid var(--cyan); transition:background .3s, box-shadow .3s;
+    }
+    .timeline-item.in-view .timeline-dot { background:var(--cyan); box-shadow:0 0 20px rgba(0,212,255,0.5); }
+    .timeline-duration {
+      display:inline-block; padding:.2rem .8rem; background:rgba(0,255,136,0.1); border:1px solid rgba(0,255,136,0.3);
+      border-radius:100px; font-size:.8rem; color:var(--mint); margin-bottom:.5rem;
+    }
+    .timeline-company { font-size:1.1rem; font-weight:700; color:var(--text); margin-bottom:.25rem; }
+    .timeline-role { font-size:.95rem; color:var(--cyan); margin-bottom:1rem; }
+    .timeline-list { list-style:none; padding:0; }
+    .timeline-list li { position:relative; padding-right:20px; margin-bottom:.5rem; color:rgba(226,232,240,0.85); font-size:.9rem; line-height:1.7; }
+    .timeline-list li::before { content:''; position:absolute; right:0; top:10px; width:8px; height:8px; border-radius:2px; background:rgba(0,212,255,0.3); transform:rotate(45deg); }
+
+    /* ===== حلقه مهارت ===== */
+    .ring-container { display:flex; flex-direction:column; align-items:center; gap:.5rem; }
+    .ring-svg { transform:rotate(-90deg); }
+    .ring-bg { fill:none; stroke:rgba(0,212,255,0.08); stroke-width:6; }
+    .ring-progress { fill:none; stroke-width:6; stroke-linecap:round; transition:stroke-dashoffset 1.8s cubic-bezier(.4,0,.2,1); }
+    .ring-text { font-family:'Orbitron',sans-serif; font-size:1.1rem; font-weight:700; fill:var(--text); transform:rotate(90deg); transform-origin:center; }
+    .ring-label { font-size:.8rem; color:var(--muted); text-align:center; }
+
+    /* ===== تگ مهارت ===== */
+    .skill-tag {
+      display:inline-block; padding:.35rem .85rem; border-radius:8px; font-size:.8rem;
+      border:1px solid; transition:transform .2s, box-shadow .2s; cursor:default;
+    }
+    .skill-tag:hover { transform:translateY(-2px); }
+
+    /* ===== کارت پروژه ===== */
+    .project-card {
+      transition:transform .3s ease, box-shadow .3s ease; transform-style:preserve-3d; cursor:default;
+    }
+    .project-card:hover { box-shadow:0 20px 60px rgba(0,212,255,0.12); }
+    .project-icon { width:48px; height:48px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:1.2rem; margin-bottom:1rem; }
+
+    /* ===== نوار مهارت نرم ===== */
+    .soft-bar-track { height:8px; background:rgba(0,212,255,0.08); border-radius:8px; overflow:hidden; }
+    .soft-bar-fill { height:100%; border-radius:8px; width:0; transition:width 1.5s cubic-bezier(.4,0,.2,1); }
+
+    /* ===== افکت ظاهرشدن ===== */
+    .reveal { opacity:0; transform:translateY(40px); transition:opacity .8s ease, transform .8s ease; }
+    .reveal.in-view { opacity:1; transform:translateY(0); }
+    .reveal-delay-1 { transition-delay:.1s; }
+    .reveal-delay-2 { transition-delay:.2s; }
+    .reveal-delay-3 { transition-delay:.3s; }
+    .reveal-delay-4 { transition-delay:.4s; }
+
+    /* ===== تابش پس‌زمینه ===== */
+    .glow-orb { position:absolute; border-radius:50%; filter:blur(100px); pointer-events:none; opacity:0; transition:opacity 1.5s ease; }
+    .glow-orb.in-view { opacity:1; }
+
+    /* ===== شبکه پس‌زمینه ===== */
+    .grid-bg {
+      background-image:linear-gradient(rgba(0,212,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,0.025) 1px,transparent 1px);
+      background-size:60px 60px;
+    }
+
+    /* ===== فوتر ===== */
+    .footer-item { display:flex; align-items:center; gap:.75rem; padding:.6rem 0; border-bottom:1px solid rgba(0,212,255,0.06); }
+    .footer-item i { color:var(--cyan); width:20px; text-align:center; }
+
+    /* ===== واکنش‌گرا ===== */
+    @media(max-width:768px) {
+      .cursor-dot,.cursor-ring { display:none; }
+      .timeline { padding-right:24px; }
+      .timeline-dot { right:-33px; width:12px; height:12px; }
+    }
+
+    /* ===== کاهش حرکت ===== */
+    @media(prefers-reduced-motion:reduce) {
+      *,*::before,*::after { animation-duration:.01ms!important; animation-iteration-count:1!important; transition-duration:.01ms!important; }
+    }
+  </style>
+</head>
+<body class="font-body">
+
+  <!-- ===== صفحه بارگذاری ===== -->
+  <div id="loader">
+    <div class="loader-name">MEHDI</div>
+    <div class="loader-bar"><div class="loader-fill"></div></div>
+    <p style="margin-top:1rem;color:var(--muted);font-size:.85rem;">در حال آماده‌سازی...</p>
+  </div>
+
+  <!-- ===== نشانگر ماوس ===== -->
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- ===== بوم سه‌بعدی ===== -->
+  <canvas id="three-canvas"></canvas>
+
+  <!-- ===== ناوبری ===== -->
+  <nav id="navbar" aria-label="ناوبری اصلی">
+    <div class="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between">
+      <span class="font-display text-cyan font-bold text-sm tracking-widest">MEHDI.IT</span>
+      <div class="flex items-center gap-6">
+        <a href="#summary" class="nav-link">خلاصه</a>
+        <a href="#experience" class="nav-link">سوابق</a>
+        <a href="#skills" class="nav-link">مهارت‌ها</a>
+        <a href="#projects" class="nav-link">پروژه‌ها</a>
+        <a href="#soft-skills" class="nav-link">مهارت نرم</a>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <!-- ===== قهرمان ===== -->
+    <section id="hero">
+      <div class="relative z-10 px-6">
+        <h1 class="hero-name">MEHDI</h1>
+        <p class="hero-sub mt-4" id="heroSub"><span class="cursor-blink"></span></p>
+        <div class="hero-badge"><i class="fas fa-bolt" style="color:var(--gold)"></i> ۲+ سال تجربه تخصصی IT</div>
+      </div>
+      <div class="scroll-indicator">
+        <i class="fas fa-chevron-down text-cyan text-xl opacity-60"></i>
+      </div>
+    </section>
+
+    <!-- ===== خلاصه حرفه‌ای ===== -->
+    <section id="summary" class="relative z-10 py-24 px-6">
+      <div class="glow-orb" style="width:500px;height:500px;background:var(--cyan);top:-100px;left:-200px;" data-glow></div>
+      <div class="max-w-4xl mx-auto">
+        <div class="reveal">
+          <h2 class="section-title">PROFESSIONAL SUMMARY</h2>
+          <div class="section-line"></div>
+        </div>
+        <div class="glass p-8 reveal reveal-delay-1">
+          <p class="text-lg leading-9" style="color:rgba(226,232,240,0.9);">
+            کارشناس IT و Help Desk با بیش از دو سال سابقه در حوزه فروش، مونتاژ، تعمیر، عیب‌یابی و پشتیبانی سیستم‌های کامپیوتری، شبکه و تجهیزات IT. دارای تجربه عملی در پشتیبانی کاربران، نصب و پیکربندی سیستم‌عامل‌ها، راه‌اندازی تجهیزات شبکه، مجازی‌سازی و کار با محیط‌های Windows و Linux.
+          </p>
+          <p class="text-lg leading-9 mt-4" style="color:rgba(226,232,240,0.9);">
+            علاقه‌مند به اتوماسیون، برنامه‌نویسی Python، هوش مصنوعی و توسعه ابزارهای کاربردی جهت افزایش بهره‌وری تیم‌های IT. توانایی یادگیری سریع فناوری‌های جدید و حل مسائل فنی در شرایط مختلف.
+          </p>
+        </div>
+        <!-- آمار -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
+          <div class="glass stat-box reveal reveal-delay-1">
+            <div class="stat-num" data-count="2">0</div>
+            <div class="stat-label">سال تجربه</div>
+          </div>
+          <div class="glass stat-box reveal reveal-delay-2">
+            <div class="stat-num" data-count="2">0</div>
+            <div class="stat-label">سازمان</div>
+          </div>
+          <div class="glass stat-box reveal reveal-delay-3">
+            <div class="stat-num" data-count="7">0</div>
+            <div class="stat-label">حوزه تخصص</div>
+          </div>
+          <div class="glass stat-box reveal reveal-delay-4">
+            <div class="stat-num" data-count="50">0</div>
+            <div class="stat-label">ابزار و تکنولوژی</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== سوابق شغلی ===== -->
+    <section id="experience" class="relative z-10 py-24 px-6 grid-bg">
+      <div class="glow-orb" style="width:400px;height:400px;background:var(--mint);bottom:-100px;right:-150px;" data-glow></div>
+      <div class="max-w-4xl mx-auto">
+        <div class="reveal">
+          <h2 class="section-title">WORK EXPERIENCE</h2>
+          <div class="section-line"></div>
+        </div>
+        <div class="timeline">
+          <!-- شغل اول -->
+          <div class="timeline-item reveal">
+            <div class="timeline-dot"></div>
+            <div class="glass p-6">
+              <span class="timeline-duration"><i class="fas fa-clock ms-1"></i> ۱ سال</span>
+              <h3 class="timeline-company">بازار کامپیوتر رضا — تهران</h3>
+              <p class="timeline-role">کارشناس IT و فروش تجهیزات کامپیوتری</p>
+              <ul class="timeline-list">
+                <li>اسمبل کامل سیستم‌های کامپیوتری</li>
+                <li>تعمیر و عیب‌یابی کامپیوتر و لپ‌تاپ</li>
+                <li>نصب Windows و Linux</li>
+                <li>نصب درایورها و نرم‌افزارهای تخصصی</li>
+                <li>ارتقاء سیستم‌ها (RAM، SSD، GPU و ...)</li>
+                <li>بروزرسانی BIOS و Firmware</li>
+                <li>تست و عیب‌یابی قطعات سخت‌افزاری</li>
+                <li>ارائه مشاوره سخت‌افزاری متناسب با بودجه مشتری</li>
+                <li>فروش لپ‌تاپ، کیس و قطعات کامپیوتری</li>
+                <li>پشتیبانی حضوری مشتریان</li>
+              </ul>
+            </div>
+          </div>
+          <!-- شغل دوم -->
+          <div class="timeline-item reveal">
+            <div class="timeline-dot"></div>
+            <div class="glass p-6">
+              <span class="timeline-duration"><i class="fas fa-clock ms-1"></i> ۱ سال</span>
+              <h3 class="timeline-company">شرکت High End — بریانک</h3>
+              <p class="timeline-role">IT Support / Technical Support</p>
+              <ul class="timeline-list">
+                <li>پشتیبانی کاربران سازمان</li>
+                <li>رفع مشکلات نرم‌افزاری و سخت‌افزاری</li>
+                <li>نصب و پیکربندی Windows</li>
+                <li>مدیریت تجهیزات شبکه</li>
+                <li>پشتیبانی Remote</li>
+                <li>راه‌اندازی VMware Workstation و ماشین‌های مجازی</li>
+                <li>مدیریت Backup و Restore</li>
+                <li>کار با Active Directory</li>
+                <li>پشتیبانی Microsoft Office و Microsoft 365</li>
+                <li>نصب و مدیریت آنتی‌ویروس سازمانی</li>
+                <li>عیب‌یابی شبکه و سرویس‌ها</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== مهارت‌های تخصصی ===== -->
+    <section id="skills" class="relative z-10 py-24 px-6">
+      <div class="glow-orb" style="width:450px;height:450px;background:var(--cyan);top:50px;right:-200px;" data-glow></div>
+      <div class="max-w-6xl mx-auto">
+        <div class="reveal">
+          <h2 class="section-title">TECHNICAL SKILLS</h2>
+          <div class="section-line"></div>
+        </div>
+        <!-- نمودار رادار + حلقه‌ها -->
+        <div class="grid md:grid-cols-2 gap-10 items-center mb-16">
+          <div class="glass p-6 reveal reveal-delay-1">
+            <canvas id="radarChart" height="320"></canvas>
+          </div>
+          <div class="grid grid-cols-3 gap-6 reveal reveal-delay-2" id="ringsContainer">
+            <!-- حلقه‌ها با JS ساخته می‌شوند -->
+          </div>
+        </div>
+        <!-- تگ‌های مهارت -->
+        <div id="skillTags" class="space-y-6 reveal reveal-delay-3">
+          <!-- با JS ساخته می‌شود -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== پروژه‌های شخصی ===== -->
+    <section id="projects" class="relative z-10 py-24 px-6 grid-bg">
+      <div class="glow-orb" style="width:400px;height:400px;background:var(--gold);top:-100px;left:-150px;" data-glow></div>
+      <div class="max-w-6xl mx-auto">
+        <div class="reveal">
+          <h2 class="section-title">PERSONAL PROJECTS</h2>
+          <div class="section-line"></div>
+        </div>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5" id="projectsGrid">
+          <!-- با JS ساخته می‌شود -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== مهارت‌های فردی ===== -->
+    <section id="soft-skills" class="relative z-10 py-24 px-6">
+      <div class="glow-orb" style="width:350px;height:350px;background:var(--mint);bottom:-50px;right:-100px;" data-glow></div>
+      <div class="max-w-3xl mx-auto">
+        <div class="reveal">
+          <h2 class="section-title">SOFT SKILLS</h2>
+          <div class="section-line"></div>
+        </div>
+        <div class="space-y-5" id="softBars">
+          <!-- با JS ساخته می‌شود -->
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== فوتر ===== -->
+  <footer class="relative z-10 py-16 px-6" style="background:var(--bg2);border-top:1px solid var(--border);">
+    <div class="max-w-4xl mx-auto">
+      <div class="grid sm:grid-cols-2 gap-8 mb-10">
+        <div>
+          <h3 class="font-display text-cyan text-sm tracking-widest mb-6">CONTACT INFO</h3>
+          <div class="footer-item"><i class="fas fa-user"></i><span>مهدی — ۲۵ سال</span></div>
+          <div class="footer-item"><i class="fas fa-map-marker-alt"></i><span>تهران، گیشا</span></div>
+          <div class="footer-item"><i class="fas fa-graduation-cap"></i><span>کارشناسی مهندسی پزشکی</span></div>
+        </div>
+        <div>
+          <h3 class="font-display text-cyan text-sm tracking-widest mb-6">LANGUAGES</h3>
+          <div class="footer-item"><i class="fas fa-language"></i><span>فارسی — زبان مادری</span></div>
+          <div class="footer-item"><i class="fas fa-globe"></i><span>انگلیسی — متوسط (مطالعه مستندات فنی)</span></div>
+          <div class="footer-item" style="border:none"><i class="fas fa-code"></i><span>Python — حرفه‌ای</span></div>
+        </div>
+      </div>
+      <div style="height:1px;background:var(--border);margin-bottom:1.5rem;"></div>
+      <p class="text-center text-sm" style="color:var(--muted);">
+        <span class="font-display text-xs tracking-widest" style="color:rgba(0,212,255,0.5);">MEHDI.IT</span>
+        &nbsp;&mdash;&nbsp; طراحی شده با کد خالص، Three.js و Chart.js
+      </p>
+    </div>
+  </footer>
+
+  <!-- ===== اسکریپت اصلی ===== -->
+  <script>
+    /* ===== داده‌ها ===== */
+    const skillCategories = [
+      { name:'سیستم‌عامل', color:'#00d4ff', icon:'fa-desktop', skills:['Windows 10/11','Linux (Ubuntu, Kali)','Windows Installation','Driver Installation','Active Directory','Microsoft 365','Remote Desktop','AnyDesk'] },
+      { name:'شبکه', color:'#00ff88', icon:'fa-network-wired', skills:['TCP/IP','DNS','DHCP','VLAN','VPN','NAT','Firewall','Mikrotik','Cisco','Wireshark','Switching','Patch Panel','کابل‌کشی شبکه'] },
+      { name:'سخت‌افزار', color:'#f0b429', icon:'fa-microchip', skills:['اسمبل حرفه‌ای سیستم','تعمیر لپ‌تاپ','ارتقاء سخت‌افزار','تعویض SSD','تعویض RAM','تعویض کارت گرافیک','BIOS','Firmware Update','تست پاور','عیب‌یابی تخصصی'] },
+      { name:'مجازی‌سازی', color:'#ff6b9d', icon:'fa-cubes', skills:['VMware Workstation','VirtualBox'] },
+      { name:'امنیت', color:'#ff4757', icon:'fa-shield-halved', skills:['Microsoft Defender','آنتی‌ویروس سازمانی','Backup & Restore','Encryption','OSINT'] },
+      { name:'برنامه‌نویسی و DevOps', color:'#a29bfe', icon:'fa-code', skills:['Python','Git','GitHub','GitLab','Docker','Docker Compose','Linux Server','SSH','Nginx'] },
+      { name:'هوش مصنوعی', color:'#fd79a8', icon:'fa-brain', skills:['ChatGPT','Claude','Gemini','Microsoft Copilot','Cursor','MCP','Ollama','Stable Diffusion','ComfyUI'] }
+    ];
+
+    const ringData = [
+      { label:'سیستم‌عامل', pct:90, color:'#00d4ff' },
+      { label:'شبکه', pct:85, color:'#00ff88' },
+      { label:'سخت‌افزار', pct:95, color:'#f0b429' },
+      { label:'مجازی‌سازی', pct:75, color:'#ff6b9d' },
+      { label:'امنیت', pct:70, color:'#ff4757' },
+      { label:'برنامه‌نویسی', pct:80, color:'#a29bfe' }
+    ];
+
+    const projectsData = [
+      { icon:'fa-robot', title:'ربات‌های Telegram', desc:'توسعه ربات‌های هوشمند با Python برای اتوماسیون وظایف', color:'#00d4ff' },
+      { icon:'fa-gears', title:'ابزارهای اتوماسیون', desc:'اسکریپت‌های اتوماسیون فرآیندهای تکراری IT', color:'#00ff88' },
+      { icon:'fa-camera', title:'ربات Instagram', desc:'ربات تعامل و مدیریت حساب اینستاگرام', color:'#f0b429' },
+      { icon:'fa-palette', title:'طراحی رابط کاربری', desc:'طراحی UI مدرن و کاربردی برای ابزارهای داخلی', color:'#ff6b9d' },
+      { icon:'fa-server', title:'سرویس‌های Linux', desc:'راه‌اندازی و پیکربندی سرویس‌های مختلف روی لینوکس', color:'#a29bfe' },
+      { icon:'fa-cube', title:'مدیریت Docker', desc:'کانتینرسازی اپلیکیشن‌ها با Docker و Docker Compose', color:'#ff4757' },
+      { icon:'fa-brain', title:'پروژه‌های AI', desc:'پیاده‌سازی پروژه‌های شخصی مبتنی بر هوش مصنوعی', color:'#fd79a8' },
+      { icon:'fa-plug', title:'اتوماسیون API', desc:'کار با API و اتوماسیون فرآیندهای سازمانی', color:'#00d4ff' }
+    ];
+
+    const softSkillsData = [
+      { name:'حل مسئله', pct:95, color:'#00d4ff' },
+      { name:'عیب‌یابی سیستم‌ها', pct:95, color:'#00ff88' },
+      { name:'یادگیری سریع', pct:90, color:'#f0b429' },
+      { name:'مسئولیت‌پذیری', pct:90, color:'#ff6b9d' },
+      { name:'ارتباط مؤثر با کاربران', pct:85, color:'#a29bfe' },
+      { name:'کار تیمی', pct:85, color:'#fd79a8' },
+      { name:'مدیریت شرایط بحرانی', pct:85, color:'#ff4757' },
+      { name:'مدیریت زمان', pct:80, color:'#00d4ff' },
+      { name:'مستندسازی فنی', pct:80, color:'#00ff88' }
+    ];
+
+    /* ===== بارگذاری ===== */
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        const loader = document.getElementById('loader');
+        loader.style.opacity = '0';
+        setTimeout(() => {
+          loader.style.display = 'none';
+          startHeroTyping();
+        }, 600);
+      }, 2400);
+    });
+
+    /* ===== تایپ قهرمان ===== */
+    function startHeroTyping() {
+      const el = document.getElementById('heroSub');
+      const texts = ['متخصص IT و پشتیبانی فنی','فروش و مونتاژ سیستم‌های کامپیوتری','برنامه‌نویس Python','علاقه‌مند به هوش مصنوعی و اتوماسیون'];
+      let ti = 0, ci = 0, deleting = false;
+      function tick() {
+        const current = texts[ti];
+        if (!deleting) {
+          el.innerHTML = current.substring(0, ci + 1) + '<span class="cursor-blink"></span>';
+          ci++;
+          if (ci === current.length) { setTimeout(() => { deleting = true; tick(); }, 2000); return; }
+          setTimeout(tick, 60);
+        } else {
+          el.innerHTML = current.substring(0, ci) + '<span class="cursor-blink"></span>';
+          ci--;
+          if (ci < 0) { deleting = false; ci = 0; ti = (ti + 1) % texts.length; setTimeout(tick, 400); return; }
+          setTimeout(tick, 30);
+        }
+      }
+      tick();
+    }
+
+    /* ===== نشانگر ماوس ===== */
+    const dot = document.getElementById('cursorDot');
+    const ring = document.getElementById('cursorRing');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      dot.style.left = mx - 4 + 'px'; dot.style.top = my - 4 + 'px';
+    });
+    function animateCursor() {
+      rx += (mx - rx) * 0.15; ry += (my - ry) * 0.15;
+      ring.style.left = rx - 18 + 'px'; ring.style.top = ry - 18 + 'px';
+      requestAnimationFrame(animateCursor);
+    }
+    animateCursor();
+    document.querySelectorAll('a,.project-card,.glass,.skill-tag,.nav-link').forEach(el => {
+      el.addEventListener('mouseenter', () => ring.classList.add('hover'));
+      el.addEventListener('mouseleave', () => ring.classList.remove('hover'));
+    });
+
+    /* ===== ناوبری ===== */
+    const navbar = document.getElementById('navbar');
+    const sections = document.querySelectorAll('section[id]');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('visible', window.scrollY > window.innerHeight * 0.6);
+      let current = '';
+      sections.forEach(s => { if (window.scrollY >= s.offsetTop - 200) current = s.id; });
+      document.querySelectorAll('.nav-link').forEach(l => {
+        l.classList.toggle('active', l.getAttribute('href') === '#' + current);
+      });
+    });
+
+    /* ===== افکت ظاهرشدن ===== */
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in-view'); } });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.reveal,.timeline-item,.glow-orb').forEach(el => revealObserver.observe(el));
+
+    /* ===== شمارنده آمار ===== */
+    const counterObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting && !e.target.dataset.counted) {
+          e.target.dataset.counted = 'true';
+          const target = parseInt(e.target.dataset.count);
+          const duration = 1800;
+          const start = performance.now();
+          function update(now) {
+            const progress = Math.min((now - start) / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            e.target.textContent = Math.floor(eased * target) + '+';
+            if (progress < 1) requestAnimationFrame(update);
+          }
+          requestAnimationFrame(update);
+        }
+      });
+    }, { threshold: 0.5 });
+    document.querySelectorAll('.stat-num').forEach(el => counterObserver.observe(el));
+
+    /* ===== حلقه‌های مهارت ===== */
+    const ringsContainer = document.getElementById('ringsContainer');
+    const R = 50, C = 2 * Math.PI * R;
+    ringData.forEach((d, i) => {
+      const offset = C * (1 - d.pct / 100);
+      const div = document.createElement('div');
+      div.className = 'ring-container';
+      div.innerHTML = `
+        <svg width="120" height="120" class="ring-svg" viewBox="0 0 120 120">
+          <circle cx="60" cy="60" r="${R}" class="ring-bg"/>
+          <circle cx="60" cy="60" r="${R}" class="ring-progress" stroke="${d.color}"
+            stroke-dasharray="${C}" stroke-dashoffset="${C}" data-target="${offset}"/>
+          <text x="60" y="60" text-anchor="middle" dy=".35em" class="ring-text">${d.pct}%</text>
+        </svg>
+        <span class="ring-label">${d.label}</span>`;
+      ringsContainer.appendChild(div);
+    });
+    /* انیمیشن حلقه‌ها */
+    const ringObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.querySelectorAll('.ring-progress').forEach(c => {
+            c.style.strokeDashoffset = c.dataset.target;
+          });
+        }
+      });
+    }, { threshold: 0.3 });
+    ringObserver.observe(ringsContainer);
+
+    /* ===== تگ‌های مهارت ===== */
+    const skillTagsContainer = document.getElementById('skillTags');
+    skillCategories.forEach(cat => {
+      const div = document.createElement('div');
+      div.className = 'glass p-5';
+      div.innerHTML = `
+        <h4 class="flex items-center gap-2 mb-3 text-sm font-bold" style="color:${cat.color}">
+          <i class="fas ${cat.icon}"></i> ${cat.name}
+        </h4>
+        <div class="flex flex-wrap gap-2">
+          ${cat.skills.map(s => `<span class="skill-tag" style="color:${cat.color};border-color:${cat.color}33;background:${cat.color}0a">${s}</span>`).join('')}
+        </div>`;
+      skillTagsContainer.appendChild(div);
+    });
+
+    /* ===== کارت‌های پروژه ===== */
+    const projectsGrid = document.getElementById('projectsGrid');
+    projectsData.forEach((p, i) => {
+      const card = document.createElement('div');
+      card.className = `glass project-card p-5 reveal reveal-delay-${(i % 4) + 1}`;
+      card.innerHTML = `
+        <div class="project-icon" style="background:${p.color}15;color:${p.color}"><i class="fas ${p.icon}"></i></div>
+        <h3 class="font-bold text-base mb-2">${p.title}</h3>
+        <p class="text-sm leading-7" style="color:var(--muted)">${p.desc}</p>`;
+      projectsGrid.appendChild(card);
+      revealObserver.observe(card);
+      /* افکت سه‌بعدی چرخش */
+      card.addEventListener('mousemove', e => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left, y = e.clientY - rect.top;
+        const cx = rect.width / 2, cy = rect.height / 2;
+        card.style.transform = `perspective(800px) rotateX(${(y - cy) / 15}deg) rotateY(${(cx - x) / 15}deg) scale(1.03)`;
+      });
+      card.addEventListener('mouseleave', () => { card.style.transform = ''; });
+    });
+
+    /* ===== نوارهای مهارت نرم ===== */
+    const softBarsContainer = document.getElementById('softBars');
+    softSkillsData.forEach((s, i) => {
+      const div = document.createElement('div');
+      div.className = `reveal reveal-delay-${(i % 4) + 1}`;
+      div.innerHTML = `
+        <div class="flex justify-between items-center mb-2">
+          <span class="text-sm font-medium">${s.name}</span>
+          <span class="text-xs font-display font-bold" style="color:${s.color}">${s.pct}%</span>
+        </div>
+        <div class="soft-bar-track">
+          <div class="soft-bar-fill" data-width="${s.pct}" style="background:linear-gradient(90deg,${s.color},${s.color}88)"></div>
+        </div>`;
+      softBarsContainer.appendChild(div);
+      revealObserver.observe(div);
+    });
+    /* انیمیشن نوارها */
+    const barObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.querySelectorAll('.soft-bar-fill').forEach(bar => {
+            bar.style.width = bar.dataset.width + '%';
+          });
+        }
+      });
+    }, { threshold: 0.2 });
+    barObserver.observe(softBarsContainer);
+
+    /* ===== نمودار رادار ===== */
+    const radarObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting && !e.target.dataset.init) {
+          e.target.dataset.init = 'true';
+          new Chart(e.target, {
+            type: 'radar',
+            data: {
+              labels: ['سیستم‌عامل', 'شبکه', 'سخت‌افزار', 'مجازی‌سازی', 'امنیت', 'برنامه‌نویسی و AI'],
+              datasets: [{
+                label: 'سطح مهارت',
+                data: [90, 85, 95, 75, 70, 80],
+                backgroundColor: 'rgba(0,212,255,0.12)',
+                borderColor: '#00d4ff',
+                pointBackgroundColor: '#00d4ff',
+                pointBorderColor: '#00d4ff',
+                pointHoverBackgroundColor: '#00ff88',
+                pointHoverBorderColor: '#00ff88',
+                borderWidth: 2,
+                pointRadius: 5,
+                pointHoverRadius: 7
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              scales: {
+                r: {
+                  beginAtZero: true, max: 100, min: 0,
+                  ticks: { display: false, stepSize: 20 },
+                  grid: { color: 'rgba(0,212,255,0.08)', lineWidth: 1 },
+                  angleLines: { color: 'rgba(0,212,255,0.08)' },
+                  pointLabels: {
+                    color: '#e2e8f0',
+                    font: { family: 'Vazirmatn', size: 12, weight: '500' }
+                  }
+                }
+              },
+              plugins: {
+                legend: { display: false },
+                tooltip: {
+                  backgroundColor: 'rgba(6,11,24,0.9)',
+                  borderColor: 'rgba(0,212,255,0.3)',
+                  borderWidth: 1,
+                  titleFont: { family: 'Vazirmatn' },
+                  bodyFont: { family: 'Vazirmatn' },
+                  callbacks: { label: ctx => ' ' + ctx.raw + '%' }
+                }
+              },
+              animation: { duration: 1500, easing: 'easeOutQuart' }
+            }
+          });
+        }
+      });
+    }, { threshold: 0.3 });
+    radarObserver.observe(document.getElementById('radarChart'));
+  </script>
+
+  <!-- ===== اسکریپت سه‌بعدی ===== -->
+  <script type="module">
+    import * as THREE from 'three';
+
+    const canvas = document.getElementById('three-canvas');
+    const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 200);
+    camera.position.z = 35;
+
+    /* ---- تکسچر ذره ---- */
+    function makeGlowTexture() {
+      const s = 64, c = document.createElement('canvas');
+      c.width = s; c.height = s;
+      const ctx = c.getContext('2d'), h = s / 2;
+      const g = ctx.createRadialGradient(h, h, 0, h, h, h);
+      g.addColorStop(0, '#ffffff');
+      g.addColorStop(0.15, '#00d4ff');
+      g.addColorStop(0.4, 'rgba(0,212,255,0.35)');
+      g.addColorStop(1, 'rgba(0,212,255,0)');
+      ctx.fillStyle = g;
+      ctx.fillRect(0, 0, s, s);
+      return new THREE.CanvasTexture(c);
+    }
+
+    /* ---- ذرات ---- */
+    const PCOUNT = 600;
+    const pGeo = new THREE.BufferGeometry();
+    const pPos = new Float32Array(PCOUNT * 3);
+    const pSizes = new Float32Array(PCOUNT);
+    const pSpeeds = new Float32Array(PCOUNT);
+    for (let i = 0; i < PCOUNT; i++) {
+      const r = 8 + Math.random() * 28;
+      const theta = Math.random() * Math.PI * 2;
+      const phi = Math.acos(2 * Math.random() - 1);
+      pPos[i * 3] = r * Math.sin(phi) * Math.cos(theta);
+      pPos[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
+      pPos[i * 3 + 2] = r * Math.cos(phi);
+      pSizes[i] = 0.5 + Math.random() * 1.5;
+      pSpeeds[i] = 0.2 + Math.random() * 0.8;
+    }
+    pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
+    pGeo.setAttribute('size', new THREE.BufferAttribute(pSizes, 1));
+
+    const pMat = new THREE.PointsMaterial({
+      map: makeGlowTexture(),
+      size: 1.2,
+      transparent: true,
+      opacity: 0.7,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+      sizeAttenuation: true,
+      color: 0x00d4ff
+    });
+    const particles = new THREE.Points(pGeo, pMat);
+    scene.add(particles);
+
+    /* ---- هندسه‌های شناور ---- */
+    const shapes = [];
+    function addShape(geo, color, pos, scale) {
+      const wireMat = new THREE.MeshBasicMaterial({ color, wireframe: true, transparent: true, opacity: 0.2 });
+      const solidMat = new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0.03 });
+      const wire = new THREE.Mesh(geo, wireMat);
+      const solid = new THREE.Mesh(geo, solidMat);
+      const group = new THREE.Group();
+      group.add(wire); group.add(solid);
+      group.position.set(pos[0], pos[1], pos[2]);
+      group.scale.setScalar(scale);
+      scene.add(group);
+      shapes.push({ group, wire, rx: Math.random() * 0.005, ry: Math.random() * 0.008, rz: Math.random() * 0.003, bobSpeed: 0.3 + Math.random() * 0.5, bobAmp: 0.5 + Math.random() * 1.5, baseY: pos[1] });
+    }
+
+    addShape(new THREE.IcosahedronGeometry(1, 1), 0x00d4ff, [-8, 3, -5], 2.5);
+    addShape(new THREE.OctahedronGeometry(1, 0), 0x00ff88, [10, -2, -8], 2);
+    addShape(new THREE.TorusGeometry(1, 0.35, 8, 24), 0xf0b429, [-5, -5, -3], 1.8);
+    addShape(new THREE.TetrahedronGeometry(1, 0), 0xff6b9d, [7, 6, -10], 1.5);
+    addShape(new THREE.DodecahedronGeometry(1, 0), 0xa29bfe, [-12, -3, -12], 1.3);
+
+    /* ---- خطوط اتصال ---- */
+    const linePositions = [];
+    const LINE_DIST = 6;
+    const posArr = pGeo.attributes.position.array;
+    for (let i = 0; i < PCOUNT; i++) {
+      for (let j = i + 1; j < PCOUNT; j++) {
+        const dx = posArr[i*3] - posArr[j*3];
+        const dy = posArr[i*3+1] - posArr[j*3+1];
+        const dz = posArr[i*3+2] - posArr[j*3+2];
+        const dist = Math.sqrt(dx*dx + dy*dy + dz*dz);
+        if (dist < LINE_DIST) {
+          linePositions.push(posArr[i*3], posArr[i*3+1], posArr[i*3+2]);
+          linePositions.push(posArr[j*3], posArr[j*3+1], posArr[j*3+2]);
+        }
+      }
+    }
+    const lineGeo = new THREE.BufferGeometry();
+    lineGeo.setAttribute('position', new THREE.Float32BufferAttribute(linePositions, 3));
+    const lineMat = new THREE.LineBasicMaterial({ color: 0x00d4ff, transparent: true, opacity: 0.06, blending: THREE.AdditiveBlending, depthWrite: false });
+    const lines = new THREE.LineSegments(lineGeo, lineMat);
+    scene.add(lines);
+
+    /* ---- ماوس ---- */
+    let targetX = 0, targetY = 0;
+    document.addEventListener('mousemove', e => {
+      targetX = (e.clientX / window.innerWidth - 0.5) * 2;
+      targetY = (e.clientY / window.innerHeight - 0.5) * 2;
+    });
+
+    /* ---- حلقه انیمیشن ---- */
+    let camX = 0, camY = 0;
+    const clock = new THREE.Clock();
+    function animate() {
+      requestAnimationFrame(animate);
+      const t = clock.getElapsedTime();
+
+      /* چرخش ذرات */
+      particles.rotation.y = t * 0.03;
+      particles.rotation.x = Math.sin(t * 0.02) * 0.1;
+      lines.rotation.y = t * 0.03;
+      lines.rotation.x = Math.sin(t * 0.02) * 0.1;
+
+      /* حرکت هندسه‌ها */
+      shapes.forEach(s => {
+        s.group.rotation.x += s.rx;
+        s.group.rotation.y += s.ry;
+        s.group.rotation.z += s.rz;
+        s.group.position.y = s.baseY + Math.sin(t * s.bobSpeed) * s.bobAmp;
+      });
+
+      /* حرکت دوربین با ماوس */
+      camX += (targetX * 3 - camX) * 0.04;
+      camY += (-targetY * 2 - camY) * 0.04;
+      camera.position.x = camX;
+      camera.position.y = camY;
+      camera.lookAt(0, 0, 0);
+
+      /* تغییر رنگ ذرات با زمان */
+      const hue = (t * 0.02) % 1;
+      pMat.color.setHSL(0.52 + Math.sin(t * 0.3) * 0.05, 1, 0.55);
+
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    /* ---- تغییر اندازه ---- */
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+  </script>
+</body>
+</html>
