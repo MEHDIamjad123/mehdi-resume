@@ -283,7 +283,7 @@ var co=new IntersectionObserver(function(e){e.forEach(function(en){if(en.isInter
 document.querySelectorAll('.stat .n').forEach(function(el){co.observe(el)});
 
 var rc=document.getElementById('rng'),R=40,C=2*Math.PI*R;
-RD.forEach(function(d){var o=C*(1-d.pct/100);var dv=document.createElement('div');dv.className='ring-c';dv.innerHTML='<svg width="85" height="85" class="ring-svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="'+R+'" class="ring-bg"/><circle cx="50" cy="50" r="'+R+'" class="ring-p" stroke="'+d.c+'" stroke-dasharray="'+C+'" stroke-dashoffset="'+C+'" data-t="'+o+'"/><text x="50" y="50" text-anchor="middle" dy=".35em" class="ring-t">'+d.pct+'%</text></svg><span class="ring-l">'+d.l+'</span>';rc.appendChild(dv)});
+RD.forEach(function(d){var o=C*(1-d.pct/100);var dv=document.createElement('div');dv.className='ring-c';dv.innerHTML='<svg width="85" height="85" class="ring-svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="'+R+'" class="ring-bg"/><circle cx="50" cy="50" r="'+R+'" class="ring-p" stroke="'+d.c+'" stroke-dasharray="'+C+'" stroke-dashoffset="'+C+'" data-t="'+o+'"/><text x="50" y="50" text-anchor="middle" dy=".35em" class="ring-t">'+d.p+'%</text></svg><span class="ring-l">'+d.l+'</span>';rc.appendChild(dv)});
 var ro=new IntersectionObserver(function(e){e.forEach(function(en){if(en.isIntersecting)en.target.querySelectorAll('.ring-p').forEach(function(c){c.style.strokeDashoffset=c.dataset.t})})},{threshold:.3});ro.observe(rc);
 
 var sc=document.getElementById('stg');
@@ -311,7 +311,7 @@ au.play().then(function(){}).catch(function(){setTimeout(function(){document.get
 var ap=false;
 function tap(){if(ap)return;ap=true;document.getElementById('apn').classList.remove('on');if(!ip)pl()}
 document.getElementById('apn').addEventListener('click',tap);
-document.addEventListener('click',function(){if(!ap&&pl.length>0)tap()});
+document.addEventListener('touchstart',function(){if(!ap&&pl.length>0)tap()},{passive:true});document.addEventListener('click',function(){if(!ap&&pl.length>0)tap()});
 document.getElementById('mt').addEventListener('click',function(e){e.stopPropagation();document.getElementById('mp').classList.toggle('on')});
 document.getElementById('mx').addEventListener('click',function(e){e.stopPropagation();document.getElementById('mp').classList.remove('on')});
 document.getElementById('pp').addEventListener('click',function(e){e.stopPropagation();ip?pa():pl()});
