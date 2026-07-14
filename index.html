@@ -15,7 +15,7 @@ tailwind.config={theme:{extend:{fontFamily:{display:['Orbitron','sans-serif'],bo
 :root{--bg:#060b18;--bg2:#0a1628;--cyan:#00d4ff;--mint:#00ff88;--gold:#f0b429;--text:#e2e8f0;--muted:#64748b;--card:rgba(10,22,40,0.75);--border:rgba(0,212,255,0.12)}
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{scroll-behavior:smooth}
-body{font-family:'Vazirmatn',sans-serif;background:var(--bg);background-image:radial-gradient(ellipse at 20% 50%,rgba(0,212,255,0.06) 0%,transparent 60%),radial-gradient(ellipse at 80% 30%,rgba(0,255,136,0.04) 0%,transparent 50%),radial-gradient(ellipse at 50% 80%,rgba(240,180,41,0.03) 0%,transparent 50%);color:var(--text);overflow-x:hidden;word-wrap:break-word;overflow-wrap:break-word}
+body{font-family:'Vazirmatn',sans-serif;background:var(--bg);background-image:radial-gradient(ellipse at 25% 45%,rgba(0,212,255,0.08) 0%,transparent 55%),radial-gradient(ellipse at 75% 25%,rgba(0,255,136,0.05) 0%,transparent 45%),radial-gradient(ellipse at 50% 85%,rgba(240,180,41,0.04) 0%,transparent 45%);background-attachment:fixed;color:var(--text);overflow-x:hidden;word-wrap:break-word;overflow-wrap:break-word}
 
 #loader{position:fixed;inset:0;z-index:9999;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .6s}
 .loader-name{font-family:'Orbitron',sans-serif;font-size:clamp(2.5rem,8vw,5rem);font-weight:900;background:linear-gradient(135deg,var(--cyan),var(--mint));-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:pulse 1.5s ease-in-out infinite}
@@ -27,7 +27,7 @@ body{font-family:'Vazirmatn',sans-serif;background:var(--bg);background-image:ra
 .cursor-dot{position:fixed;width:8px;height:8px;background:var(--cyan);border-radius:50%;pointer-events:none;z-index:9998;mix-blend-mode:screen;display:none}
 .cursor-ring{position:fixed;width:36px;height:36px;border:1.5px solid rgba(0,212,255,0.5);border-radius:50%;pointer-events:none;z-index:9997;display:none}
 
-#three-canvas{position:fixed;top:0;left:0;width:100vw;height:100vh;width:100%;height:100%;z-index:0;pointer-events:none}
+#three-canvas{position:fixed;top:0;left:0;right:0;bottom:0;width:100%;height:100%;z-index:0;pointer-events:none;display:block}
   
 #navbar{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(6,11,24,0.9);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--border);transform:translateY(-100%);transition:transform .4s}
 #navbar.visible{transform:translateY(0)}
